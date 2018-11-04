@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.os150.tabhost.MainActivity">
+    <TabHost
+        android:id="@android:id/tabhost"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:id="@+id/tab1"
+                    android:gravity="center"
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/tab2"
+                    android:gravity="center"
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/tab3"
+                    android:gravity="center"
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/tab4"
+                    android:gravity="center"
+                    android:background="#ffffff"
+                    android:orientation="vertical"
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    >
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:gravity="right"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <Button
+                        android:id="@+id/Signin"
+                        android:background="@android:color/transparent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="회원가입"/>
+                    <Button
+                        android:id="@+id/login"
+                        android:background="@android:color/transparent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="로그인"/>
+                </LinearLayout>
+
+                        <TextView
+
+                            android:id="@+id/loginInfo"
+                            android:background="#ffffff"
+                            android:paddingLeft="18dp"
+                            android:drawableLeft="@drawable/personinfo_person"
+                            android:drawablePadding="18dp"
+                            android:gravity="center|center_vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="비회원 입니다.">
+
+                        </TextView>
+
+
+
+                    <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <TableRow>
+                            <Button
+                                android:background="@android:color/transparent"
+                                android:id="@+id/btnSales"
+                                android:paddingLeft="18dp"
+                                android:drawableLeft="@drawable/personinfo_sales"
+                                android:drawablePadding="18dp"
+                                android:gravity="left|center_vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="판매 내역"
+                                />
+                            <Button
+                                android:background="@android:color/transparent"
+                                android:id="@+id/btnPurchase"
+                                android:paddingLeft="18dp"
+                                android:drawableLeft="@drawable/personinfo_purchase"
+                                android:drawablePadding="18dp"
+                                android:gravity="left|center_vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="구매 내역"/>
+                        </TableRow>
+                        <TableRow>
+                            <Button
+                                android:background="@android:color/transparent"
+                                android:id="@+id/btnlikeProduct"
+                                android:paddingLeft="18dp"
+                                android:drawableLeft="@drawable/personinfo_likeproduct"
+                                android:drawablePadding="18dp"
+                                android:gravity="left|center_vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="관심상품"/>
+                            <Button
+                                android:background="@android:color/transparent"
+                                android:id="@+id/btnMyPosts"
+                                android:paddingLeft="18dp"
+                                android:drawableLeft="@drawable/personinfo_myposts"
+                                android:drawablePadding="18dp"
+                                android:gravity="left|center_vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="내 게시글"/>
+                        </TableRow>
+                        <TableRow>
+                            <Button
+                                android:background="@android:color/transparent"
+                                android:id="@+id/btntownSetting"
+                                android:paddingLeft="18dp"
+                                android:drawableLeft="@drawable/personinfo_townsetting"
+                                android:drawablePadding="18dp"
+                                android:gravity="left|center_vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="동네 설정"/>
+                            <Button
+                                android:background="@android:color/transparent"
+                                android:id="@+id/btnKeyword"
+                                android:paddingLeft="18dp"
+                                android:drawableLeft="@drawable/personinfo_keyword"
+                                android:drawablePadding="18dp"
+                                android:gravity="left|center_vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="키워드 알림"/>
+                        </TableRow>
+                    </TableLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tab5"
+                    android:gravity="center"
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:orientation="vertical">
+
+
+                </LinearLayout>
+
+            </FrameLayout>
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:background="#ABDDF2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></TabWidget>
+        </LinearLayout>
+    </TabHost>
+</LinearLayout>

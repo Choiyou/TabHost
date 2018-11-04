@@ -1,0 +1,23 @@
+★11.04
+매니페스트
+ - 퍼미션 추가
+ - 구글 API적용
+   API적용은 개개인으로 하나씩 적용하는게 마음 편합니다!! Google계정으로 하나씩 장만하시고 적용하시기 바랍니다!!
+   API받기 - https://console.developers.google.com/apis/credentials?project=disco-idea-205610&authuser=0
+   API적용 - https://webnautes.tistory.com/647 
+   SHA1쉽게 알아보기 - android실행 -> 우측 상단 벽에 붙어있는 Gradle. -> 프로젝트명(root) ->
+                               Tasks -> android -> signingReport -> 아래 SHA1코드 복사해서 사용하시면 됩니다.
+
+자바 소스
+ - Main - intent로 다른 Activity 작동 되도록 설정.
+ - MapsActivity추가.
+
+XML
+ - Acitivy_Maps추가.(그냥 지도 표시..)
+ - 공통파트 부분 수정(주석처리만 했습니다.)
+
+build.gradle(Module)
+ - implementation 'com.google.android.gms:play-services-maps:16.0.0' 추가
+
+
+적용안될시 카톡주세요.

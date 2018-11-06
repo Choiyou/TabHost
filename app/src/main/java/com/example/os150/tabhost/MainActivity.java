@@ -4,6 +4,7 @@
 package com.example.os150.tabhost;
 
 import android.app.TabActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -249,5 +250,17 @@ public class MainActivity extends TabActivity {
                 startActivity(intent);
             }
         });
+        TabHost.TabSpec tabSpecMap = tabHost.newTabSpec("tab2");
+        tabSpecMap.setIndicator("지도");
+        Context ctx = this.getApplicationContext();
+        Intent intentmap = new Intent(ctx, MapsActivity.class);
+        //에러나면 아래 주석 풀어주고 바로 아랫줄 setContent부분 주석처리 해주세요.
+        /*
+        try {
+            tabSpecMap.setContent(intentmap);
+        } catch (InflateException e) { }
+        */
+        tabSpecMap.setContent(intentmap);
+        tabHost.addTab(tabSpecMap);
     }
 }

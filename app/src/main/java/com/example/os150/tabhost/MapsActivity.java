@@ -30,6 +30,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Log.i("MapsActivity", "지도 활성화 확인");
         mMap = googleMap;
 
+
         //임시 테스트용.
         LatLng test = new LatLng(36.79,127.07);
         mMap.addMarker(new MarkerOptions().position(test).title("테스트용"));

@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -29,6 +30,11 @@ public class MainActivity extends TabActivity {
         Button btnTownSetting = (Button) findViewById(R.id.btntownSetting);
         Button btnKeyword = (Button)findViewById(R.id.btnKeyword);
         Button btnSignin = (Button) findViewById(R.id.Signin);
+        Button btnAddPhoto =(Button)findViewById(R.id.photo_add);
+        Button btnCaSelect =(Button)findViewById(R.id.category_select);
+        EditText editTitle =(EditText)findViewById(R.id.edtTitle);
+        EditText editPrice =(EditText)findViewById(R.id.edtPrice);
+        EditText editContents =(EditText)findViewById(R.id.edtContents);
         Button cBtn1,cBtn2,cBtn3,
                 cBtn4,cBtn5,cBtn6,
                 cBtn7,cBtn8,cBtn9,
@@ -248,6 +254,20 @@ public class MainActivity extends TabActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), ConnectmainActivity.class);
                 startActivity(intent);
+            }
+        });
+        btnAddPhoto = (Button)findViewById(R.id.photo_add);
+        btnAddPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        btnCaSelect= (Button)findViewById(R.id.category_select);
+        btnCaSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
         TabHost.TabSpec tabSpecMap = tabHost.newTabSpec("tab2");

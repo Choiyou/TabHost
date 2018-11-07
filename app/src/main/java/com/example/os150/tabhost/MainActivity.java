@@ -256,7 +256,7 @@ public class MainActivity extends TabActivity {
                 startActivity(intent);
             }
         });
-        btnAddPhoto = (Button)findViewById(R.id.photo_add);
+
         btnAddPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

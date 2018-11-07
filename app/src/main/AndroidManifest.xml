@@ -36,6 +36,7 @@
         <activity android:name=".ProfileActivity"/>
         <activity android:name=".ConnectmainActivity"/>
         <activity android:name=".MapsActivity" />
+        <activity android:name=".CategoryselectActivity"/>
 
 
 

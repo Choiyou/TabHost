@@ -270,6 +270,7 @@ public class MainActivity extends TabActivity {
 
             }
         });
+
         TabHost.TabSpec tabSpecMap = tabHost.newTabSpec("tab2");
         tabSpecMap.setIndicator("지도");
         Context ctx = this.getApplicationContext();

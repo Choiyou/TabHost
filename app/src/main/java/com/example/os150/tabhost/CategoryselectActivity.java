@@ -19,6 +19,7 @@ public class CategoryselectActivity extends Activity  {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_categoryselect);
         select1= (Button)findViewById(R.id.select_btn1);
         select1.setOnClickListener(new View.OnClickListener() {
             @Override

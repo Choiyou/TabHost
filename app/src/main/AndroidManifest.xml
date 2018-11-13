@@ -37,7 +37,9 @@
         <activity android:name=".ConnectmainActivity"/>
         <activity android:name=".MapsActivity" />
         <activity android:name=".CategoryselectActivity"/>
-
+        <activity android:name=".ChatActivity"/>
+        <activity android:name=".ChatDTO"/>
+        <activity android:name=".StartActivity"/>
 
 
     </application>

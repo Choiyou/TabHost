@@ -25,21 +25,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginInfoActivity"/>
         <activity android:name=".SaleActivity"/>
         <activity android:name=".PurchaseActivity"/>
         <activity android:name=".LikeProductActivity"/>
         <activity android:name=".MyPostsActivity"/>
         <activity android:name=".TownSettingActivity"/>
+        <activity android:name=".LoginActivity"/>
         <activity android:name=".KeywordActivity"/>
         <activity android:name=".SigninActivity"/>
         <activity android:name=".ProfileActivity"/>
         <activity android:name=".ConnectmainActivity"/>
         <activity android:name=".MapsActivity" />
         <activity android:name=".CategoryselectActivity"/>
-        <activity android:name=".ChatActivity"/>
-        <activity android:name=".ChatDTO"/>
-        <activity android:name=".StartActivity"/>
 
 
 

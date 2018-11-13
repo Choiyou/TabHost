@@ -1,65 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.os150.tabhost.ProfileActivity">
-
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_weight="1"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+        android:orientation="horizontal"
+        android:layout_weight="8"
+        android:layout_centerHorizontal="false"
+        android:layout_centerVertical="false"
         android:layout_margin="16dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <ImageView
-            android:src="@mipmap/ic_launcher"
+            android:id="@+id/profileimage"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_gravity="center_horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:src="@drawable/personinfo_person" />
 
         <TextView
             android:id="@+id/textviewUserEmail"
             android:text=""
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="center"
             android:layout_margin="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <LinearLayout
+        <Button
+            android:id="@+id/btnLogout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="right|center"
+            android:background="@drawable/mybutton"
+            android:text="로그아웃" />
+    </LinearLayout>
+     <TextView
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+             android:gravity="center"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:orientation="horizontal">
+
+        <TextView
+            android:text="서비스이용"
+            android:id="@+id/Using"
             android:layout_gravity="center"
-            android:orientation="horizontal">
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_margin="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-            <Button
-                android:id="@+id/btnUsing"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="40dp"
-
-                android:background="@drawable/mybutton"
-                android:text="서비스 이용" />
-
-            <Button
-                android:id="@+id/buttonLogout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/mybutton"
-                android:text="로그아웃" />
-
-        </LinearLayout>
 
         <TextView
             android:text="회원탈퇴"
             android:id="@+id/userDelete"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="center"
             android:textColor="@color/colorPrimaryDark"
             android:layout_margin="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
-</RelativeLayout>
+</LinearLayout>
+
+
+</LinearLayout>

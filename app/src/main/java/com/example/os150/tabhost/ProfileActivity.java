@@ -1,25 +1,28 @@
 package com.example.os150.tabhost;
 
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+        import android.content.DialogInterface;
+        import android.content.Intent;
+        import android.os.Bundle;
+        import android.support.annotation.NonNull;
+        import android.support.annotation.Nullable;
+        import android.support.v7.app.AlertDialog;
+        import android.support.v7.app.AppCompatActivity;
+        import android.view.View;
+        import android.widget.Button;
+        import android.widget.ImageView;
+        import android.widget.TextView;
+        import android.widget.Toast;
+        import com.bumptech.glide.Glide;
+        import com.google.android.gms.tasks.OnCompleteListener;
+        import com.google.android.gms.tasks.Task;
+        import com.google.firebase.auth.FirebaseAuth;
+        import com.google.firebase.auth.FirebaseUser;
+        import com.google.firebase.auth.UserInfo;
 
 /**
  * Created by os150 on 2018-11-04.
  */
+
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "ProfileActivity";
@@ -29,9 +32,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     //view objects
     private TextView textViewUserEmail;
+    private TextView Using;
+    private TextView Username;
+    private ImageView imageView;
     private Button buttonLogout;
     private TextView userDelete;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +45,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         //initializing views
         textViewUserEmail = (TextView) findViewById(R.id.textviewUserEmail);
-        buttonLogout = (Button) findViewById(R.id.buttonLogout);
+        buttonLogout = (Button) findViewById(R.id.btnLogout);
         userDelete = (TextView) findViewById(R.id.userDelete);
-
-        //initializing firebase authentication object
+        Username = (TextView) findViewById(R.id.username);
+        Using = (TextView) findViewById(R.id.Using);
         firebaseAuth = FirebaseAuth.getInstance();
-        //유저가 로그인 하지 않은 상태라면 null 상태이고 이 액티비티를 종료하고 로그인 액티비티를 연다.
         if(firebaseAuth.getCurrentUser() == null) {
             finish();
             startActivity(new Intent(this, LoginActivity.class));
@@ -54,10 +58,18 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         //유저가 있다면, null이 아니면 계속 진행
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
-        //textViewUserEmail의 내용을 변경해 준다.
-        textViewUserEmail.setText("반갑습니다.\n"+ user.getEmail()+"으로 로그인 하였습니다.");
+        if(user.getPhotoUrl()!=null){
+            String photoUrl = user.getPhotoUrl().toString();
+            ImageView photoImageView = (ImageView) findViewById(R.id.profileimage);
+            Glide.with(this).load(photoUrl).into(photoImageView);
 
+        }
+
+        //textViewUserEmail의 내용을 변경해 준다.
+        textViewUserEmail.setText("반갑습니다.\n"+ user.getEmail()+"  님");
+        Username.setText("사용자 이름 : "+ user.getDisplayName());
         //logout button event
+        Using.setOnClickListener(this);
         buttonLogout.setOnClickListener(this);
         userDelete.setOnClickListener(this);
 
@@ -66,10 +78,14 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
+        if (view == Using){
+            finish();
+            startActivity(new Intent(this, MainActivity.class));
+        }
         if (view == buttonLogout) {
             firebaseAuth.signOut();
             finish();
-            startActivity(new Intent(this, LoginActivity.class));
+            startActivity(new Intent(this, MainActivity.class));
         }
         //회원탈퇴를 클릭하면 회원정보를 삭제한다.
         if(view == userDelete) {

@@ -7,12 +7,21 @@ import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 @SuppressWarnings("deprecation")
 public class MainActivity extends TabActivity {
@@ -21,8 +30,7 @@ public class MainActivity extends TabActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        TextView txtLoginInfo = (TextView) findViewById(R.id.loginInfo);
+        final TextView txtLoginInfo = (TextView) findViewById(R.id.loginInfo);
         Button btnSales = (Button) findViewById(R.id.btnSales);
         Button btnPurchase = (Button) findViewById(R.id.btnPurchase);
         Button btnLikeProduct = (Button) findViewById(R.id.btnlikeProduct);
@@ -30,11 +38,22 @@ public class MainActivity extends TabActivity {
         Button btnTownSetting = (Button) findViewById(R.id.btntownSetting);
         Button btnKeyword = (Button)findViewById(R.id.btnKeyword);
         Button btnSignin = (Button) findViewById(R.id.Signin);
+        Button btnLogin = (Button) findViewById(R.id.login);
         Button btnAddPhoto =(Button)findViewById(R.id.photo_add);
         Button btnCaSelect =(Button)findViewById(R.id.category_select);
         EditText editTitle =(EditText)findViewById(R.id.edtTitle);
         EditText editPrice =(EditText)findViewById(R.id.edtPrice);
         EditText editContents =(EditText)findViewById(R.id.edtContents);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if(user!=null) {
+
+
+            txtLoginInfo.setText("회원 : " + user.getEmail());
+        }
+        else{
+            txtLoginInfo.setText("비회원입니다.");
+        }
         Button cBtn1,cBtn2,cBtn3,
                 cBtn4,cBtn5,cBtn6,
                 cBtn7,cBtn8,cBtn9,
@@ -67,7 +86,7 @@ public class MainActivity extends TabActivity {
             LinearLayout linearLayout = (LinearLayout)tabHost.getTabWidget().getChildAt(i);
 
             TextView tv = (TextView)linearLayout.getChildAt(1);
-            tv.setTextSize(10);
+            tv.setTextSize(9);
 
         }
 
@@ -81,8 +100,18 @@ public class MainActivity extends TabActivity {
         txtLoginInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), LoginInfoActivity.class);
-                startActivity(intent);
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                if(user!=null) {
+
+                   Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                   startActivity(intent);
+               }
+               else
+               {
+                   Toast.makeText(MainActivity.this,"로그인을 먼저 해주세요",Toast.LENGTH_SHORT).show();
+               }
+
             }
         });
 
@@ -90,6 +119,13 @@ public class MainActivity extends TabActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), SigninActivity.class);
+                startActivity(intent);
+            }
+        });
+        btnLogin.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
                 startActivity(intent);
             }
         });

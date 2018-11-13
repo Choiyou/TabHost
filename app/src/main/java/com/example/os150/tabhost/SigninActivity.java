@@ -17,6 +17,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 /**
  * Created by os150 on 2018-11-03.
@@ -27,9 +30,11 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
     TextView textViewMessage;
     EditText editTextEmail;
     EditText editTextPassword;
+    EditText editTextUserName;
     Button btnSignup;
     ProgressDialog progressDialog; // 회원등록에 사용
     FirebaseAuth firebaseAuth;
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,10 +58,8 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
         textViewSignin.setOnClickListener(this);
     }
     private void registerUser() {
-        //사용자가 입력하는 email, password를 가져온다.
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
-        //email과 password가 비었는지 아닌지를 체크 한다.
         if (TextUtils.isEmpty(email)) {
             Toast.makeText(this, "Email을 입력해 주세요.", Toast.LENGTH_SHORT).show();
             return;
@@ -65,11 +68,9 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
             Toast.makeText(this, "Password를 입력해 주세요.", Toast.LENGTH_SHORT).show();
         }
 
-        //email과 password가 제대로 입력되어 있다면 계속 진행된다.
         progressDialog.setMessage("등록중입니다. 기다려 주세요...");
         progressDialog.show();
 
-        //creating a new user
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -78,7 +79,6 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
                             finish();
                             startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                         } else {
-                            //에러발생시
                             textViewMessage.setText("에러유형\n - 이미 등록된 이메일  \n -암호 최소 6자리 이상 \n - 서버에러");
                             Toast.makeText(SigninActivity.this, "등록 에러!", Toast.LENGTH_SHORT).show();
                         }
@@ -88,8 +88,6 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
-
-    //button click event
     @Override
     public void onClick(View view) {
         if(view == btnSignup) {

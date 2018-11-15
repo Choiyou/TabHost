@@ -22,12 +22,18 @@ public class CategoryselectActivity extends Activity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categoryselect);
         select1= (Button)findViewById(R.id.select_btn1);
+
         select1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(CategoryselectActivity.this, MainActivity.class);
+                String data = select1.getText().toString();
+                intent.putExtra("result", data);
+                setResult(RESULT_OK, intent);
+                finish();
             }
         });
+
         select2= (Button)findViewById(R.id.select_btn2);
         select2.setOnClickListener(new View.OnClickListener() {
             @Override

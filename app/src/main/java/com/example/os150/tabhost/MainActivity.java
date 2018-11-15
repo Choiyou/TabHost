@@ -26,12 +26,15 @@ import com.google.firebase.auth.FirebaseUser;
 @SuppressWarnings("deprecation")
 public class MainActivity extends TabActivity {
 
+    Button btnCaSelect;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final TextView txtLoginInfo = (TextView) findViewById(R.id.loginInfo);
         Button btnSales = (Button) findViewById(R.id.btnSales);
+        btnCaSelect =(Button)findViewById(R.id.category_select);
         Button btnPurchase = (Button) findViewById(R.id.btnPurchase);
         Button btnLikeProduct = (Button) findViewById(R.id.btnlikeProduct);
         Button btnMyPosts = (Button) findViewById(R.id.btnMyPosts);
@@ -40,15 +43,12 @@ public class MainActivity extends TabActivity {
         Button btnSignin = (Button) findViewById(R.id.Signin);
         Button btnLogin = (Button) findViewById(R.id.login);
         Button btnAddPhoto =(Button)findViewById(R.id.photo_add);
-        Button btnCaSelect =(Button)findViewById(R.id.category_select);
         EditText editTitle =(EditText)findViewById(R.id.edtTitle);
         EditText editPrice =(EditText)findViewById(R.id.edtPrice);
         EditText editContents =(EditText)findViewById(R.id.edtContents);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         if(user!=null) {
-
-
             txtLoginInfo.setText("회원 : " + user.getEmail());
         }
         else{
@@ -300,11 +300,13 @@ public class MainActivity extends TabActivity {
             }
         });
 
+
         btnCaSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), CategoryselectActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent(MainActivity.this, CategoryselectActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);   //Activity존재시 재사용.
+                startActivityForResult(intent, 100);
 
             }
         });
@@ -321,5 +323,15 @@ public class MainActivity extends TabActivity {
         */
         tabSpecMap.setContent(intentmap);
         tabHost.addTab(tabSpecMap);
+    }
+
+    //intent결과 값 받아오는창. startActivityResult에서 값 비교, Sextra에서 결과 비교해서 같을경우 가져오게 해야함.
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK) {
+            if(requestCode == 100)
+                btnCaSelect.setText(data.getStringExtra("result"));
+        }
     }
 }

@@ -26,6 +26,8 @@ import com.google.firebase.auth.FirebaseUser;
 @SuppressWarnings("deprecation")
 public class MainActivity extends TabActivity {
 
+    Button btnCaSelect;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +42,7 @@ public class MainActivity extends TabActivity {
         Button btnSignin = (Button) findViewById(R.id.Signin);
         Button btnLogin = (Button) findViewById(R.id.login);
         Button btnAddPhoto =(Button)findViewById(R.id.photo_add);
-        Button btnCaSelect =(Button)findViewById(R.id.category_select);
+        btnCaSelect =(Button)findViewById(R.id.category_select);
         EditText editTitle =(EditText)findViewById(R.id.edtTitle);
         EditText editPrice =(EditText)findViewById(R.id.edtPrice);
         EditText editContents =(EditText)findViewById(R.id.edtContents);
@@ -305,6 +307,7 @@ public class MainActivity extends TabActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), CategoryselectActivity.class);
                 startActivity(intent);
+                startActivityForResult(intent, 100);
 
             }
         });
@@ -321,5 +324,15 @@ public class MainActivity extends TabActivity {
         */
         tabSpecMap.setContent(intentmap);
         tabHost.addTab(tabSpecMap);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == RESULT_OK) {
+            if(requestCode == 100) {
+                btnCaSelect.setText(data.getStringExtra("result"));
+            }
+
+        }
     }
 }

@@ -40,7 +40,7 @@ public class MainActivity extends TabActivity {
         Button btnSignin = (Button) findViewById(R.id.Signin);
         Button btnLogin = (Button) findViewById(R.id.login);
         Button btnAddPhoto =(Button)findViewById(R.id.photo_add);
-        final Button btnCaSelect =(Button)findViewById(R.id.category_select);
+        Button btnCaSelect =(Button)findViewById(R.id.category_select);
         EditText editTitle =(EditText)findViewById(R.id.edtTitle);
         EditText editPrice =(EditText)findViewById(R.id.edtPrice);
         EditText editContents =(EditText)findViewById(R.id.edtContents);
@@ -305,6 +305,7 @@ public class MainActivity extends TabActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), CategoryselectActivity.class);
                 startActivity(intent);
+
             }
         });
 

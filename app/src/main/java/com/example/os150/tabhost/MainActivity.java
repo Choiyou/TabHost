@@ -308,6 +308,9 @@ public class MainActivity extends TabActivity {
                 Intent intent = new Intent(getApplicationContext(), CategoryselectActivity.class);
                 startActivity(intent);
                 startActivityForResult(intent, 100);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+
 
             }
         });

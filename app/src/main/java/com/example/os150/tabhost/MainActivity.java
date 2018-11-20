@@ -3,11 +3,18 @@
 
 package com.example.os150.tabhost;
 
+import android.app.AlertDialog;
 import android.app.TabActivity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.content.FileProvider;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,10 +30,21 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.io.File;
+import java.io.IOException;
+
 @SuppressWarnings("deprecation")
 public class MainActivity extends TabActivity {
 
+    private final int CategoryResult = 100;
+    private final int CameraResult = 200;
+    private final int AlbumResult = 300;
+    private Uri imgUri, photoURI, albumURI;
+    private String mCurrentPhotoPath;
+
     Button btnCaSelect;
+    Button Write_OK;
+    boolean priceZero;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,14 +61,20 @@ public class MainActivity extends TabActivity {
         Button btnLogin = (Button) findViewById(R.id.login);
         Button btnAddPhoto =(Button)findViewById(R.id.photo_add);
         btnCaSelect =(Button)findViewById(R.id.category_select);
-        EditText editTitle =(EditText)findViewById(R.id.edtTitle);
-        EditText editPrice =(EditText)findViewById(R.id.edtPrice);
-        EditText editContents =(EditText)findViewById(R.id.edtContents);
+        Write_OK = (Button)findViewById(R.id.OK_btn);
+        final EditText editTitle =(EditText)findViewById(R.id.edtTitle);
+        final EditText editPrice =(EditText)findViewById(R.id.edtPrice);
+        final EditText editContents =(EditText)findViewById(R.id.edtContents);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        ImageView itemImg1 = (ImageView)findViewById(R.id.itemImg1);
+        ImageView itemImg2 = (ImageView)findViewById(R.id.itemImg2);
+        ImageView itemImg3 = (ImageView)findViewById(R.id.itemImg3);
+        ImageView itemImg4 = (ImageView)findViewById(R.id.itemImg4);
+        ImageView itemImg5 = (ImageView)findViewById(R.id.itemImg5);
+
+
 
         if(user!=null) {
-
-
             txtLoginInfo.setText("회원 : " + user.getEmail());
         }
         else{
@@ -98,14 +122,12 @@ public class MainActivity extends TabActivity {
         tabHost.addTab(tabSpecChat);
         //tabHost.setCurrentTab(0);
 
-
         txtLoginInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
                 if(user!=null) {
-
                    Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
                    startActivity(intent);
                }
@@ -116,6 +138,7 @@ public class MainActivity extends TabActivity {
 
             }
         });
+
 
         btnSignin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -298,22 +321,45 @@ public class MainActivity extends TabActivity {
         btnAddPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                makeDialog();
             }
         });
 
+        //판매글 올리는 곳에서 카테고리 선택하는 곳.
         btnCaSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), CategoryselectActivity.class);
-                startActivity(intent);
-                startActivityForResult(intent, 100);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivityForResult(intent, CategoryResult);
+            }
+        });
 
+        //글 완료 버튼시 시작하는 곳.--------------------------------------------------------------------------
+        Write_OK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String title = editTitle.getText().toString();
+                int price = 0;
+                try{
+                    price = Integer.valueOf(editPrice.getText().toString());
+                } catch(NumberFormatException e) { }
+                String contents = editContents.getText().toString();
+                //내용 입력 확인.
+                if(title.length() == 0) {
+                    Toast.makeText(MainActivity.this, "제목을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                } else if(contents.length() == 0) {
+                    Toast.makeText(MainActivity.this, "내용을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                } else if(btnCaSelect.getText().toString().equals("카테고리 선택>")) {
+                    Toast.makeText(MainActivity.this, "카테고리를 선택해주세요.", Toast.LENGTH_SHORT).show();
+                }else if(price == 0) {
+                    Pricecheck();
+                }
 
 
             }
         });
+
 
         TabHost.TabSpec tabSpecMap = tabHost.newTabSpec("tab2");
         tabSpecMap.setIndicator("지도");
@@ -328,14 +374,129 @@ public class MainActivity extends TabActivity {
         tabSpecMap.setContent(intentmap);
         tabHost.addTab(tabSpecMap);
     }
+
+    //다른곳 Intent해서 값 받아오는 곳.
+    //requestCode는 startActivityForResult에서 reauestCode와 같아야 원하는 정보를 받을수 있다. 중복 X
+    //resultCode는 RESULT_OK로 통일.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == RESULT_OK) {
-            if(requestCode == 100) {
+        if(resultCode == RESULT_OK) {
+            if(requestCode == CategoryResult) {
                 btnCaSelect.setText(data.getStringExtra("result"));
+                System.out.println("받은 데이터 : "+ data.getStringExtra("result"));
             }
 
         }
     }
+    //앨범에서 가져오기.
+    private void selectAlbum() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+        intent.setType("image/*");
+        startActivityForResult(intent,AlbumResult);
+    }
+
+    private void takePhoto() {
+        String state = Environment.getExternalStorageState();
+
+        if(Environment.MEDIA_MOUNTED.equals(state)) {
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            if(intent.resolveActivity(getPackageManager())!=null) {
+                File photoFile = null;
+                try{
+                    photoFile = createImageFile();
+                } catch (IOException e) {}
+                if(photoFile != null) {
+                    Uri providerURI = FileProvider.getUriForFile(this, getPackageName(), photoFile);
+                    imgUri = providerURI;
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, providerURI);
+                    startActivityForResult(intent, CameraResult);
+                }
+            }
+            else{
+                Toast.makeText(this, "저장공간 접근 불가.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+        }
+    }
+    public File createImageFile() throws IOException {
+        String imgFileNmae = System.currentTimeMillis() + ".jpg";
+        File imageFile = null;
+        File storageDir = new File(Environment.getExternalStorageDirectory() + "/Pictures", "ireh");
+        if()
+    }
+
+
+
+    //이미지 가져오기.
+    private void makeDialog(){
+        AlertDialog.Builder alert_confirm = new AlertDialog.Builder(MainActivity.this);
+        alert_confirm.setMessage("업로드할 이미지 선택")
+                .setCancelable(false)
+                .setPositiveButton("사진 촬영",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //사진 찍으셈.
+                                takePhoto();
+                            }
+                        })
+                .setNeutralButton("앨범 선택",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //앨범 선택.
+                                selectAlbum();
+                            }
+                        })
+                .setNegativeButton("취소",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(MainActivity.this, "취소", Toast.LENGTH_SHORT).show();
+                                dialog.cancel();
+                            }
+                        });
+        AlertDialog alert = alert_confirm.create();
+        alert.show();
+    }
+
+    //boolean변수인 priceZero를 설정해줍니다.
+    private void Pricecheck(){
+        AlertDialog.Builder alert_confirm = new AlertDialog.Builder(MainActivity.this);
+        alert_confirm.setMessage("금액을 0원으로 하시겠습니까?")
+                .setCancelable(false)
+                .setPositiveButton("네",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(MainActivity.this, "금액을 0원으로 설정합니다.", Toast.LENGTH_SHORT).show();
+                                PriceZero();
+                            }
+                        })
+                .setNegativeButton("아니오",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(MainActivity.this, "금액을 다시 설정해주세요..", Toast.LENGTH_SHORT).show();
+                                PriceNonZero();
+                            }
+                        });
+        AlertDialog alert = alert_confirm.create();
+        alert.show();
+    }
+
+
+    //가격이 0원이여도 됩니다.
+    private void PriceZero() {
+        priceZero = true;
+    }
+    //가격이 0원이면 아니되오....
+    private void PriceNonZero() {
+        priceZero = false;
+    }
+
+
 }

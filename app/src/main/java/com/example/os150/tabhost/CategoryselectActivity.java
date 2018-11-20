@@ -150,6 +150,7 @@ public class CategoryselectActivity extends Activity  {
     private void startIntent(String sendData) {
         Intent intent = new Intent(CategoryselectActivity.this, MainActivity.class);
         intent.putExtra("result", sendData);
+        System.out.println("Main 으로 보내는 정보 : "+ sendData);
         setResult(RESULT_OK, intent);
         finish();
     }

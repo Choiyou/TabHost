@@ -15,6 +15,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
+import android.view.InflateException;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -80,11 +81,7 @@ public class MainActivity extends TabActivity {
         else{
             txtLoginInfo.setText("비회원입니다.");
         }
-        Button cBtn1,cBtn2,cBtn3,
-                cBtn4,cBtn5,cBtn6,
-                cBtn7,cBtn8,cBtn9,
-                cBtn10,cBtn11,cBtn12,
-                cBtn13,cBtn14,cBtn15;
+
 
         TabHost tabHost = getTabHost();
 
@@ -95,9 +92,14 @@ public class MainActivity extends TabActivity {
 
 
         TabHost.TabSpec tabSpecCategory = tabHost.newTabSpec("CATEGORY").setIndicator("카테고리");
-        tabSpecCategory.setContent(R.id.tab2);
-        tabHost.addTab(tabSpecCategory);
 
+        Intent intentCategory = new Intent(this, CategoryActivity.class);
+
+        /* try{
+            tabSpecCategory.setContent(intentCategory);
+        }catch(InflateException e){} */
+        tabSpecCategory.setContent(intentCategory);
+        tabHost.addTab(tabSpecCategory);
 
         TabHost.TabSpec tabSpecWrite = tabHost.newTabSpec("Write").setIndicator("글쓰기");
         tabSpecWrite.setContent(R.id.tab3);
@@ -120,7 +122,7 @@ public class MainActivity extends TabActivity {
         TabHost.TabSpec tabSpecChat = tabHost.newTabSpec("CHATTING").setIndicator("채팅");
         tabSpecChat.setContent(R.id.tab5);
         tabHost.addTab(tabSpecChat);
-        //tabHost.setCurrentTab(0);
+       // tabHost.setCurrentTab(0);
 
         txtLoginInfo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -197,131 +199,10 @@ public class MainActivity extends TabActivity {
                 startActivity(intent);
             }
         });
-        cBtn1 = (Button)findViewById(R.id.btn1);
-        cBtn1.setOnClickListener(new View.OnClickListener() {
+                btnAddPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ConnectmainActivity.class);
-                startActivity(intent);
-            }
-        });
-        cBtn2 = (Button)findViewById(R.id.btn2);
-        cBtn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ConnectmainActivity.class);
-                startActivity(intent);
-            }
-        });
-        cBtn3 = (Button)findViewById(R.id.btn3);
-        cBtn3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ConnectmainActivity.class);
-                startActivity(intent);
-            }
-        });
-        cBtn4 = (Button)findViewById(R.id.btn4);
-        cBtn4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ConnectmainActivity.class);
-                startActivity(intent);
-            }
-        });
-        cBtn5 = (Button)findViewById(R.id.btn5);
-        cBtn5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ConnectmainActivity.class);
-                startActivity(intent);
-            }
-        });
-        cBtn6 = (Button)findViewById(R.id.btn6);
-        cBtn6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ConnectmainActivity.class);
-                startActivity(intent);
-            }
-        });
-        cBtn7 = (Button)findViewById(R.id.btn7);
-        cBtn7.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ConnectmainActivity.class);
-                startActivity(intent);
-            }
-        });
-        cBtn8 = (Button)findViewById(R.id.btn8);
-        cBtn8.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ConnectmainActivity.class);
-                startActivity(intent);
-            }
-        });
-        cBtn9 = (Button)findViewById(R.id.btn9);
-        cBtn9.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ConnectmainActivity.class);
-                startActivity(intent);
-            }
-        });
-        cBtn10 = (Button)findViewById(R.id.btn10);
-        cBtn10.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ConnectmainActivity.class);
-                startActivity(intent);
-            }
-        });
-        cBtn11 = (Button)findViewById(R.id.btn11);
-        cBtn11.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ConnectmainActivity.class);
-                startActivity(intent);
-            }
-        });
-        cBtn12 = (Button)findViewById(R.id.btn12);
-        cBtn12.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ConnectmainActivity.class);
-                startActivity(intent);
-            }
-        });
-        cBtn13 = (Button)findViewById(R.id.btn13);
-        cBtn13.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ConnectmainActivity.class);
-                startActivity(intent);
-            }
-        });
-        cBtn14 = (Button)findViewById(R.id.btn14);
-        cBtn14.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ConnectmainActivity.class);
-                startActivity(intent);
-            }
-        });
-        cBtn15 = (Button)findViewById(R.id.btn15);
-        cBtn15.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ConnectmainActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        btnAddPhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                makeDialog();
+               // makeDialog();
             }
         });
 
@@ -390,7 +271,7 @@ public class MainActivity extends TabActivity {
         }
     }
     //앨범에서 가져오기.
-    private void selectAlbum() {
+   /*private void selectAlbum() {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
         intent.setType("image/*");
@@ -422,10 +303,10 @@ public class MainActivity extends TabActivity {
         }
     }
     public File createImageFile() throws IOException {
-        String imgFileNmae = System.currentTimeMillis() + ".jpg";
+       String imgFileNmae = System.currentTimeMillis() + ".jpg";
         File imageFile = null;
         File storageDir = new File(Environment.getExternalStorageDirectory() + "/Pictures", "ireh");
-        if()
+
     }
 
 
@@ -461,7 +342,7 @@ public class MainActivity extends TabActivity {
                         });
         AlertDialog alert = alert_confirm.create();
         alert.show();
-    }
+    }*/
 
     //boolean변수인 priceZero를 설정해줍니다.
     private void Pricecheck(){

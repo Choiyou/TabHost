@@ -17,6 +17,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
 import android.view.InflateException;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -40,6 +41,7 @@ public class MainActivity extends TabActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);    //스테이터스바 제거.
         setContentView(R.layout.activity_main);
         final TextView txtLoginInfo = (TextView) findViewById(R.id.loginInfo);
         Button btnSales = (Button) findViewById(R.id.btnSales);
@@ -83,6 +85,7 @@ public class MainActivity extends TabActivity {
         TabHost.TabSpec tabSpecWrite = tabHost.newTabSpec("tab2");
         tabSpecWrite.setIndicator("글쓰기");
         Intent intentwrite = new Intent(ctx, WriteActivity.class);
+        intentwrite.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         tabSpecWrite.setContent(intentwrite);
         tabHost.addTab(tabSpecWrite);
 
@@ -122,6 +125,7 @@ public class MainActivity extends TabActivity {
         TabHost.TabSpec tabSpecMap = tabHost.newTabSpec("tab2");
         tabSpecMap.setIndicator("지도");
         Intent intentmap = new Intent(ctx, MapsActivity.class);
+        intentmap.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         tabSpecMap.setContent(intentmap);
         tabHost.addTab(tabSpecMap);
 

@@ -1,5 +1,9 @@
 package com.example.os150.tabhost;
-
+/*
+설명 : 글쓰기 TAB 입니다.
+사용법 : 제목, 카테고리, 내용을 필수적으로 입력, 가격은 선택.
+        완료버튼을 누르면 Datebase에 저장이 됩니다.
+ */
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -21,6 +25,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -50,13 +56,15 @@ public class WriteActivity extends Activity{
     Button Write_OK;
     boolean WriteCheckResult;
     ImageView itemImg1,itemImg2,itemImg3,itemImg4,itemImg5;
-
+    EditText editTitle, editPrice, editContents;
+    CheckBox UseMap;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write);
 
+        UseMap = (CheckBox) findViewById(R.id.Mapcheck);
         ImageView itemImg1 = (ImageView) findViewById(R.id.itemImg1);
         ImageView itemImg2 = (ImageView) findViewById(R.id.itemImg2);
         ImageView itemImg3 = (ImageView) findViewById(R.id.itemImg3);
@@ -64,11 +72,11 @@ public class WriteActivity extends Activity{
         ImageView itemImg5 = (ImageView) findViewById(R.id.itemImg5);
         btnCaSelect = (Button) findViewById(R.id.category_select);
         Write_OK = (Button) findViewById(R.id.OK_btn);
+        editTitle = (EditText) findViewById(R.id.edtTitle);
+        editPrice = (EditText) findViewById(R.id.edtPrice);
+        editContents = (EditText) findViewById(R.id.edtContents);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         Button btnAddPhoto = (Button) findViewById(R.id.photo_add);
-        final EditText editTitle = (EditText) findViewById(R.id.edtTitle);
-        final EditText editPrice = (EditText) findViewById(R.id.edtPrice);
-        final EditText editContents = (EditText) findViewById(R.id.edtContents);
 
         btnAddPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,8 +88,32 @@ public class WriteActivity extends Activity{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(WriteActivity.this, CategoryselectActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivityForResult(intent, CategoryResult);
+            }
+        });
+        UseMap.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {        //지도 기능 확인.
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) {
+                    Toast.makeText(WriteActivity.this, "현재 위치 정보를 받습니다.", Toast.LENGTH_SHORT).show();
+                } else {
+                    AlertDialog.Builder build = new AlertDialog.Builder(WriteActivity.this);
+                    build.setMessage("지도 기능을 끄면 지도에 판매글이 표시되지 않습니다. 지도 기능을 끄시겠습니까?");
+                    build.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(WriteActivity.this, "지도 기능을 끕니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    build.setNeutralButton("아니오", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(WriteActivity.this, "지도 기능을 유지합니다.", Toast.LENGTH_SHORT).show();
+                            UseMap.setChecked(true);
+                        }
+                    });
+                    build.show();
+                }
             }
         });
 
@@ -278,14 +310,18 @@ public class WriteActivity extends Activity{
     //boolean변수인 priceZero를 설정해줍니다.
     private void Writecheck(){
         AlertDialog.Builder alert_confirm = new AlertDialog.Builder(this);
-        alert_confirm.setMessage("금액을 0원으로 하시겠습니까?")
+        alert_confirm.setMessage("금액을 0원으로 설정하고 완료하시겠습니까?")
                 .setCancelable(false)
                 .setPositiveButton("네",
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(WriteActivity.this, "금액을 0원으로 설정합니다.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(WriteActivity.this, "0원으로 설정하고 완료합니다.", Toast.LENGTH_SHORT).show();
                                 Pass();
+                                //파이어 베이스 글 올리는거 여기에 작성하면 됩니다!!!
+                                //WriteCheckResult 불 변수를 이용해서 참, 거짓 판별 가능.
+
+                                Clear();
                             }
                         })
                 .setNegativeButton("아니오",
@@ -322,6 +358,13 @@ public class WriteActivity extends Activity{
         } else {
             takePhoto();
         }
+    }
+    private void Clear() {
+        btnCaSelect.setText("카테고리 선택>");
+        editPrice = null;
+        editTitle = null;
+        editContents = null;
+        NonPass();
     }
 
     @Override

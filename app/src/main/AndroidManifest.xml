@@ -42,9 +42,6 @@
         <activity android:name=".ConnectmainActivity"/>
         <activity android:name=".MapsActivity" />
         <activity android:name=".CategoryselectActivity"/>
-        <activity android:name=".ChatActivity"/>
-        <activity android:name=".ChatDTO"/>
-        <activity android:name=".StartActivity"/>
         <activity android:name=".CategoryActivity"/>
 
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>

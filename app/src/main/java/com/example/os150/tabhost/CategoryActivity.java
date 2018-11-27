@@ -1,4 +1,8 @@
 package com.example.os150.tabhost;
+/*
+설명 : 카테고리 탭의 Activity입니다.
+
+ */
 import android.app.Activity;
 import android.app.TabActivity;
 import android.content.Intent;

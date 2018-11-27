@@ -33,6 +33,8 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.File;
 import java.io.IOException;
@@ -135,6 +137,17 @@ public class WriteActivity extends Activity{
                 } else if(price == 0) {
                     Writecheck();
                 }
+                //데이터 베이스 에 데이터 전송
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference myContents = database.getReference();
+                String Title =editTitle.getText().toString();
+                String Price =editPrice.getText().toString();
+                String Contents = editContents.getText().toString();
+                String Name =btnCaSelect.getText().toString();
+                Catedata catedata = new Catedata(Name,Price,Contents,Title);
+
+                myContents.child(btnCaSelect.getText().toString()).push().setValue(catedata);
+
             }
         });
     }

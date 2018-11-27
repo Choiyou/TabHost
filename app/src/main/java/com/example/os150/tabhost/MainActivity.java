@@ -120,8 +120,14 @@ public class MainActivity extends TabActivity {
 
 
         TabHost.TabSpec tabSpecChat = tabHost.newTabSpec("CHATTING").setIndicator("채팅");
-        tabSpecChat.setContent(R.id.tab5);
+        Intent intentChat = new Intent(this, ChatMain.class);
+
+        /* try{
+            tabSpecChat.setContent(intentChat);
+        }catch(InflateException e){} */
+        tabSpecChat.setContent(intentChat);
         tabHost.addTab(tabSpecChat);
+
        // tabHost.setCurrentTab(0);
 
         txtLoginInfo.setOnClickListener(new View.OnClickListener() {

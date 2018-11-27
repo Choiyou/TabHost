@@ -16,11 +16,13 @@ package com.example.os150.tabhost;
         import android.widget.TextView;
         import android.widget.Toast;
         import com.bumptech.glide.Glide;
+        import com.example.os150.tabhost.model.UserModel;
         import com.google.android.gms.tasks.OnCompleteListener;
         import com.google.android.gms.tasks.Task;
         import com.google.firebase.auth.FirebaseAuth;
         import com.google.firebase.auth.FirebaseUser;
         import com.google.firebase.auth.UserInfo;
+        import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Created by os150 on 2018-11-04.

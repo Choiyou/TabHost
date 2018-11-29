@@ -35,9 +35,6 @@ import static com.example.os150.tabhost.R.anim.toleft;
 
 public class PeopleFragment extends Fragment{
 
-    //usermodel 대신 작성
-    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -63,7 +60,7 @@ public class PeopleFragment extends Fragment{
                     for(DataSnapshot snapshot :dataSnapshot.getChildren()){
                         userModels.add(snapshot.getValue(UserModel.class));
 
-//                        //if(userModels.uid.equals(myUid)){
+//                        if(userModels.equlas(myUid)){
 //                            continue;
 //                        }userModels.add((UserModel) userModels);
                     }
@@ -90,15 +87,12 @@ public class PeopleFragment extends Fragment{
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
             //데이터 넣어주는 역할 username이랑 사진 불러오기
 
-            //usermodel 대신 작성
-            String photoUrl = user.getPhotoUrl().toString();
-            String username = user.getDisplayName();
-
-            Glide.with(holder.itemView.getContext())
-                    .load(photoUrl)
+            Glide.with
+                    (holder.itemView.getContext())
+                    .load(userModels.get(position).profileImageUrl)
                     .apply(new RequestOptions().circleCrop())
                     .into(((CustomViewHolder)holder).imageView);
-            ((CustomViewHolder)holder).textView.setText(username);
+            ((CustomViewHolder)holder).textView.setText(userModels.get(position).userName);
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

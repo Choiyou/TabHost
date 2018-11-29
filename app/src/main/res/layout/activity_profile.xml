@@ -75,8 +75,24 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
                 />
-
-
+        </TableRow>
+        <TableRow>
+            <Button
+                android:text="프로필 설정"
+                android:id="@+id/userImage"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                />
+            <Button
+                android:text="사용자 이름 변경"
+                android:id="@+id/usernameChange"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                />
         </TableRow>
     </TableLayout>
 
@@ -84,3 +100,4 @@
 
 
 </LinearLayout>
+

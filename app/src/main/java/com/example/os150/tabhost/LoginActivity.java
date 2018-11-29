@@ -21,6 +21,7 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.internal.CallbackManagerImpl;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -39,6 +40,8 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.json.JSONObject;
 
@@ -56,6 +59,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private TextView textviewerrorMessage;
     private CallbackManager mCallbackManager;
     private LoginButton Facebook_Login;
+    private DatabaseReference mDatabase;
     ProgressDialog progressDialog;
     FirebaseAuth firebaseAuth;
 
@@ -101,31 +105,45 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
 //                    String email = editTextLEmail.getText().toString().trim();
 //                    String password = editTextLPassword.getText().toString().trim();
-                    if (TextUtils.isEmpty(editTextLEmail.getText().toString().trim())) {
-                        Toast.makeText(getApplicationContext(), "이메일 입력해주세요.", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    if (TextUtils.isEmpty(editTextLPassword.getText().toString().trim())) {
-                        Toast.makeText(getApplicationContext(), "비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    progressDialog.setMessage("로그인 중....");
-                    progressDialog.show();
+                if (TextUtils.isEmpty(editTextLEmail.getText().toString().trim())) {
+                    Toast.makeText(getApplicationContext(), "이메일 입력해주세요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (TextUtils.isEmpty(editTextLPassword.getText().toString().trim())) {
+                    Toast.makeText(getApplicationContext(), "비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                progressDialog.setMessage("로그인 중....");
+                progressDialog.show();
 
-                    firebaseAuth.signInWithEmailAndPassword(editTextLEmail.getText().toString().trim(), editTextLPassword.getText().toString().trim()).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            progressDialog.dismiss();
-                            if (task.isSuccessful()) {
-                                finish();
-                                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
-                            } else {
-                                Toast.makeText(getApplicationContext(), "Login Fail..", Toast.LENGTH_SHORT).show();
-                                textviewerrorMessage.setText("실패 이유 ..\n- password를 잘못입력 하셨습니다.\n- 서버 오류");
+                firebaseAuth.signInWithEmailAndPassword(editTextLEmail.getText().toString().trim(), editTextLPassword.getText().toString().trim()).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressDialog.dismiss();
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                            mDatabase = FirebaseDatabase.getInstance().getReference("users");
+                            String euid = user.getUid();
+                            String ename = user.getDisplayName();
+                            String eemail = user.getEmail();
+                            String ephotoUrl = user.getPhotoUrl().toString();
+                            Userdata userdata = new Userdata(ename, ephotoUrl, eemail);
 
-                            }
+                            Log.v("알림", "현재 로그인한 유저 uid" + euid);
+                            Log.v("알림", "현재 로그인한 유저 이름" + ename);
+                            Log.v("알림", "현재 로그인한 유저 이메일" + eemail);
+                            Log.v("알림", "현재 로그인한 유저 이미지" + ephotoUrl);
+
+                            mDatabase.child("users").child(euid).setValue(userdata);
+                            finish();
+                            startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Login Fail..", Toast.LENGTH_SHORT).show();
+                            textviewerrorMessage.setText("실패 이유 ..\n- password를 잘못입력 하셨습니다.\n- 서버 오류");
+
                         }
-                    });
+                    }
+                });
             }
         });
         textViewFindpassword.setOnClickListener(new View.OnClickListener() {
@@ -145,13 +163,18 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         Facebook_Login.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+                startActivity(new Intent(LoginActivity.this, MembershipActivity.class));
                 System.out.println("Handler 실행...");
                 handleFacebookAccessToken(loginResult.getAccessToken());
             }
 
             @Override
             public void onCancel() {
-                System.out.println("취소...");
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user == null) {
+                    LoginManager.getInstance().logOut();
+                    System.out.println("취소...");
+                }
             }
 
             @Override
@@ -183,26 +206,43 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private void handleFacebookAccessToken(AccessToken token) {
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(LoginActivity.this, "페이스북 인증 성공", Toast.LENGTH_SHORT).show();
-                            finish();
-                        } else {
-                            Toast.makeText(LoginActivity.this, "페이스북 인증 실패", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
-    private void firebaseAuthWithGoogle(GoogleSignInAccount acnt) {
-        AuthCredential credential = GoogleAuthProvider.getCredential(acnt.getIdToken(), null);
-        firebaseAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
+                    Toast.makeText(LoginActivity.this, "페이스북 인증 성공", Toast.LENGTH_SHORT).show();
+                    finish();
+                } else {
+                    Toast.makeText(LoginActivity.this, "페이스북 인증 실패", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acnt) {
+
+        AuthCredential credential = GoogleAuthProvider.getCredential(acnt.getIdToken(), null);
+        mDatabase = FirebaseDatabase.getInstance().getReference("users");
+        firebaseAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+
+                if (task.isSuccessful()) {
+                    FirebaseUser user = firebaseAuth.getCurrentUser();
+                    String uid = user.getUid();
+                    String name = user.getDisplayName();
+                    String email = user.getEmail();
+                    String photoUrl = user.getPhotoUrl().toString();
+                    Userdata userdata = new Userdata(name,photoUrl,email);
+
+                    Log.v("알림","현재 로그인한 유저 uid"+uid);
+                    Log.v("알림","현재 로그인한 유저 이름"+name);
+                    Log.v("알림","현재 로그인한 유저 이메일"+email);
+                    Log.v("알림","현재 로그인한 유저 이미지"+photoUrl);
+
+                    mDatabase.child("users").child(uid).setValue(userdata);
+
                     Toast.makeText(LoginActivity.this, "인증 성공", Toast.LENGTH_SHORT).show();
                     finish();
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    startActivity(new Intent(LoginActivity.this, MembershipActivity.class));
 
                 } else {
                     Toast.makeText(LoginActivity.this, "인증 실패", Toast.LENGTH_SHORT).show();
@@ -210,6 +250,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             }
         });
     }
-        public void onConnectionFailed(ConnectionResult connectionResult){
+    public void onConnectionFailed(ConnectionResult connectionResult){
     }
 }

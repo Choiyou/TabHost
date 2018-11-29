@@ -1,4 +1,7 @@
 package com.example.os150.tabhost;
+/*
+설명 : 카테고리 버튼의 선택을 위한 Activity 입니다.
+ */
 
 import android.app.Activity;
 import android.content.Intent;

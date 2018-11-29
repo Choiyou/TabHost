@@ -7,17 +7,20 @@ package com.example.os150.tabhost;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.location.Location;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -46,12 +49,13 @@ public class WriteActivity extends Activity{
     private final int CategoryResult = 100;
     private final int CameraResult = 200;
     private final int AlbumResult = 300;
+    private final int PermissionResult = 400;
     public Uri imgUri, photoURI, albumURI;
     private String mCurrentPhotoPath;
-    private final String[] RequiredPermission = {
+    private static final String[] RequiredPermission = {
             Manifest.permission.CAMERA,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE
+            Manifest.permission.READ_EXTERNAL_STORAGE,
     };
 
     Button btnCaSelect;
@@ -297,7 +301,7 @@ public class WriteActivity extends Activity{
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //사진 찍으셈.
-                                checkPermission();
+                                takePhoto();
                             }
                         })
                 .setNeutralButton("앨범 선택",
@@ -359,19 +363,6 @@ public class WriteActivity extends Activity{
         WriteCheckResult = false;
     }
 
-    //퍼미션 확인용. 카메라, 저장소 읽기, 쓰기.
-    public void checkPermission() {
-        int CameraPermission, WritePermission, ReadPermission;
-        CameraPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
-        WritePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        ReadPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
-
-        if(CameraPermission == PackageManager.PERMISSION_DENIED || WritePermission == PackageManager.PERMISSION_DENIED || ReadPermission == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(this, RequiredPermission,0);
-        } else {
-            takePhoto();
-        }
-    }
     private void Clear() {
         btnCaSelect.setText("카테고리 선택>");
         editPrice = null;
@@ -379,33 +370,5 @@ public class WriteActivity extends Activity{
         editContents = null;
         NonPass();
     }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        boolean check_result = true;
-        //거부 퍼미션 확인.
-        for(int result : grantResults) {
-            if(result != PackageManager.PERMISSION_GRANTED){
-                check_result = false;
-                break;
-            }
-        }
-        //거부한 퍼미션이 없는 경우.
-        if(check_result) {
-            takePhoto();
-        } else {                //거부한 퍼미션이 있는 경우.
-            if(ActivityCompat.shouldShowRequestPermissionRationale(this, RequiredPermission[0]) ||
-                    ActivityCompat.shouldShowRequestPermissionRationale(this, RequiredPermission[1]) ||
-                    ActivityCompat.shouldShowRequestPermissionRationale(this, RequiredPermission[2])) {
-                Toast.makeText(this, "앱을 다시 실행해서 접근 권한을 허용해주세요.", Toast.LENGTH_LONG).show();
-                ActivityCompat.requestPermissions(this, RequiredPermission, 0);
-            }
-            else {      //거부한적없고 그냥 권한 실행하는 것.
-                ActivityCompat.requestPermissions(this, RequiredPermission, 0);
-            }
-        }
-    }
-
 
 }

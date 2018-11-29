@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-feature android:name="android.hardware.camera2" android:required="false"/>
 
     <application
         android:allowBackup="true"
@@ -23,12 +24,14 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDZStsImGEC7Twaculkcv9-1NnhGwGTTrs" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".Operating">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".MainActivity"/>
+
         <activity android:name=".SaleActivity"/>
         <activity android:name=".PurchaseActivity"/>
         <activity android:name=".LikeProductActivity"/>

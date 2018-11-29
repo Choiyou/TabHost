@@ -35,8 +35,6 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
-import java.lang.reflect.Member;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 

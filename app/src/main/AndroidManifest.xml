@@ -11,7 +11,6 @@
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-feature android:name="android.hardware.camera2" android:required="false"/>
 
     <application
         android:allowBackup="true"
@@ -21,31 +20,32 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <uses-library android:name="com.google.android.maps" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDZStsImGEC7Twaculkcv9-1NnhGwGTTrs" />
-        <activity android:name=".Operating">
+
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"/>
-
-        <activity android:name=".SaleActivity"/>
-        <activity android:name=".PurchaseActivity"/>
-        <activity android:name=".LikeProductActivity"/>
-        <activity android:name=".MyPostsActivity"/>
-        <activity android:name=".TownSettingActivity"/>
-        <activity android:name=".FindActivity"/>
-        <activity android:name=".LoginActivity"/>
-        <activity android:name=".KeywordActivity"/>
-        <activity android:name=".SigninActivity"/>
-        <activity android:name=".ProfileActivity"/>
-        <activity android:name=".ConnectmainActivity"/>
+        <activity android:name=".SaleActivity" />
+        <activity android:name=".PurchaseActivity" />
+        <activity android:name=".LikeProductActivity" />
+        <activity android:name=".MyPostsActivity" />
+        <activity android:name=".TownSettingActivity" />
+        <activity android:name=".FindActivity" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".KeywordActivity" />
+        <activity android:name=".SigninActivity" />
+        <activity android:name=".ProfileActivity" />
+        <activity android:name=".ConnectmainActivity" />
         <activity android:name=".MapsActivity" />
-        <activity android:name=".CategoryselectActivity"/>
-        <activity android:name=".CategoryActivity"/>
+        <activity android:name=".CategoryselectActivity" />
+        <activity android:name=".CategoryActivity" />
         <activity android:name=".WriteActivity"/>
         <activity android:name=".MembershipActivity"/>
 
@@ -55,8 +55,12 @@
             <intent-filter> <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="@string/fb_login_protocol_scheme" />
-            </intent-filter> </activity>
+            </intent-filter>
+        </activity>
+        <activity android:name=".ChatMain" />
+        <activity android:name=".Chat.MessageActivity"></activity>
     </application>
 
 

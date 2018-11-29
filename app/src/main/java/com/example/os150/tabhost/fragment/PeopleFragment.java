@@ -87,12 +87,14 @@ public class PeopleFragment extends Fragment{
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
             //데이터 넣어주는 역할 username이랑 사진 불러오기
 
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
             Glide.with
                     (holder.itemView.getContext())
-                    .load(userModels.get(position).profileImageUrl)
+                    .load(user.getPhotoUrl())
                     .apply(new RequestOptions().circleCrop())
                     .into(((CustomViewHolder)holder).imageView);
-            ((CustomViewHolder)holder).textView.setText(userModels.get(position).userName);
+            ((CustomViewHolder)holder).textView.setText(user.getDisplayName());
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

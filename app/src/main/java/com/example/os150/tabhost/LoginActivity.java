@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.os150.tabhost.model.UserModel;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -128,6 +129,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             String eemail = user.getEmail();
                             String ephotoUrl = user.getPhotoUrl().toString();
                             Userdata userdata = new Userdata(ename, ephotoUrl, eemail);
+
 
                             Log.v("알림", "현재 로그인한 유저 uid" + euid);
                             Log.v("알림", "현재 로그인한 유저 이름" + ename);

@@ -255,3 +255,4 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     public void onConnectionFailed(ConnectionResult connectionResult){
     }
 }
+

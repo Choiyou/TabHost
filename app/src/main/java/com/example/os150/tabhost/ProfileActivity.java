@@ -5,10 +5,13 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -20,7 +23,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.annotation.GlideModule;
 import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -28,6 +33,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -38,12 +44,14 @@ import com.google.firebase.storage.UploadTask;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.microedition.khronos.opengles.GL;
+
 /**
  * Created by os150 on 2018-11-04.
  */
 
 
-public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
+public class ProfileActivity extends AppCompatActivity implements View.OnClickListener  {
     private  static final int GET_FROM_GALLERY = 3;
     private static final String TAG = "ProfileActivity";
 
@@ -63,8 +71,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +88,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         Profileimage = (ImageView) findViewById(R.id.profileimage);
         firebaseAuth = FirebaseAuth.getInstance();
 
+        Profileimage.setBackground(new ShapeDrawable(new OvalShape()));
+        Profileimage.setClipToOutline(true);
+
         if (firebaseAuth.getCurrentUser() == null) {
             finish();
             startActivity(new Intent(this, LoginActivity.class));
@@ -89,14 +98,16 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         //유저가 있다면, null이 아니면 계속 진행
         FirebaseUser user = firebaseAuth.getCurrentUser();
-//        if(user.getPhotoUrl()!=null){
-//            String photoUrl = user.getPhotoUrl().toString();
-//            ImageView photoImageView = (ImageView) findViewById(R.id.profileimage);
-//            Glide.with(this).load(photoUrl).into(photoImageView);
-//
-//        }
 
-        //textViewUsername의 내용을 변경해 준다.
+
+        if(user.getPhotoUrl()!=null) {
+
+            GlideApp.with(this).load(user.getPhotoUrl()).into(Profileimage);
+
+        }else{
+            Toast.makeText(getApplicationContext(),"프로필 이미지가 없습니다.",Toast.LENGTH_SHORT).show();
+        }
+
         if(user.getDisplayName()==null) {
             textViewUserEmail.setText("반갑습니다.\n이름 및 프로필을 설정해주세요.");
 
@@ -104,6 +115,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             textViewUserEmail.setText("반갑습니다.\n" + user.getDisplayName() + "  님");
             Username.setText(user.getDisplayName());
         }
+
 
         //logout button event
         Using.setOnClickListener(this);
@@ -139,17 +151,16 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             }
         }
         if (view == buttonLogout) {
+
             try {
                 if (user.getDisplayName() == null || user.getPhotoUrl().toString() == null) {
                     Toast.makeText(this, "프로필 및 사용자 이름을 선택해주세요.", Toast.LENGTH_SHORT).show();
                 }
                 else {
-
                     firebaseAuth.signOut();
                     LoginManager.getInstance().logOut();
                     finish();
                     startActivity(new Intent(this, MembershipActivity.class));
-
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -273,10 +284,49 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         if (requestCode == GET_FROM_GALLERY && resultCode == Activity.RESULT_OK && data != null) {
 
-            filePath = data.getData();
-            uploadFile();
+           filePath = data.getData();
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMHH_mmss");
+            Date now = new Date();
+            final String filename = formatter.format(now) + ".png";
+            Log.d(TAG, "filename :" + filename);
+            final StorageReference storageReference = storage.getReferenceFromUrl("gs://test-67176.appspot.com").child("userimage/" + filename);
+
+            if (filePath != null) {
+
+                final ProgressDialog progressDialog = new ProgressDialog(this);
+                progressDialog.setTitle("업로드 중..");
+                progressDialog.show();
 
 
+                storageReference.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        progressDialog.dismiss();
+                        GlideApp.with(getApplicationContext()).load(filePath).into(Profileimage);
+                        Toast.makeText(getApplicationContext(), "업로드 완료", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(), "업로드 실패", Toast.LENGTH_SHORT).show();
+
+                    }
+                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                        @SuppressWarnings("VisibleForTests")
+                        double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                        progressDialog.setMessage("Uploaded" + ((int) progress) + "% ...");
+
+                    }
+                });
+            }
+            else{
+                Toast.makeText(getApplicationContext(), "파일을 먼저 선택하세요", Toast.LENGTH_SHORT).show();
+
+            }
             try {
 
                 final Bitmap ibitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
@@ -288,8 +338,12 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(getApplicationContext(),"성공",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"성공"+filePath.toString(),Toast.LENGTH_SHORT).show();
                             Log.d(TAG, "profileimage update success");
+                        }
+                        else{
+                            Toast.makeText(getApplicationContext(),"실패",Toast.LENGTH_SHORT).show();
+
                         }
                     }
                 });
@@ -299,54 +353,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 e.printStackTrace();
             }
 
-        }
-    }
-
-
-    private void uploadFile() {
-
-
-        if (filePath != null) {
-
-            final ProgressDialog progressDialog = new ProgressDialog(this);
-            progressDialog.setTitle("업로드 중..");
-            progressDialog.show();
-
-            FirebaseStorage storage = FirebaseStorage.getInstance();
-
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMHH_mmss");
-            Date now = new Date();
-            String filename = formatter.format(now) + ".png";
-            Log.d(TAG,"filename :"+ filename);
-            StorageReference storageReference = storage.getReferenceFromUrl("gs://test-67176.appspot.com").child("userimage/" + filename);
-//            StorageReference forestReference = storageReference.child("userimage/" + filename);
-//            Glide.with(this).load(forestReference).into(Profileimage);
-            storageReference.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    progressDialog.dismiss();
-                    Toast.makeText(getApplicationContext(), "업로드 완료", Toast.LENGTH_SHORT).show();
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    progressDialog.dismiss();
-                    Toast.makeText(getApplicationContext(), "업로드 실패", Toast.LENGTH_SHORT).show();
-
-                }
-            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                    @SuppressWarnings("VisibleForTests")
-                    double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                    progressDialog.setMessage("Uploaded" + ((int) progress) + "% ...");
-
-                }
-            });
-
-        }
-        else{
-            Toast.makeText(getApplicationContext(), "파일을 먼저 선택하세요", Toast.LENGTH_SHORT).show();
 
         }
     }

@@ -3,14 +3,20 @@ package com.example.os150.tabhost;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Created by os150 on 2018-11-26.
@@ -33,11 +39,9 @@ public class MembershipActivity extends Activity{
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         if(user!=null) {
-            if (user.getDisplayName() == "") {
-                txtLoginInfo.setText("이름을 설정해주세요.");
-            } else {
-                txtLoginInfo.setText("회원 : " + user.getDisplayName());
-            }
+
+                txtLoginInfo.setText("회원 : "+user.getDisplayName());
+
         }
         else{
             txtLoginInfo.setText("비회원입니다.");

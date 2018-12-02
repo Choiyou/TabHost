@@ -142,16 +142,20 @@ public class WriteActivity extends Activity{
                     Writecheck();
                 }
                 //데이터 베이스 에 데이터 전송
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference myContents = database.getReference();
-                String Title =editTitle.getText().toString();
-                String Price =editPrice.getText().toString();
-                String Contents = editContents.getText().toString();
-                String Name =btnCaSelect.getText().toString();
-                Catedata catedata = new Catedata(Name,Price,Contents,Title);
+                if(user!=null) {
+                    String Title = editTitle.getText().toString();
+                    String Price = editPrice.getText().toString();
+                    String Contents = editContents.getText().toString();
+                    String Name = btnCaSelect.getText().toString();
+                    Catedata catedata = new Catedata(Name, Price, Contents, Title);
 
-                myContents.child(btnCaSelect.getText().toString()).push().setValue(catedata);
-
+                    myContents.child("Market").child(btnCaSelect.getText().toString()).push().setValue(catedata);
+                }else{
+                    Toast.makeText(WriteActivity.this,"로그인을 해주세요",Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

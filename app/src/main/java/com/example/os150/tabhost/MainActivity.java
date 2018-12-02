@@ -67,7 +67,8 @@ public class MainActivity extends TabActivity {
 
 
         TabHost.TabSpec tabSpecMain = tabHost.newTabSpec("MAIN").setIndicator("메인");
-        tabSpecMain.setContent(R.id.tab1);
+        Intent intentMain = new Intent(this,ConnectmainActivity.class);
+        tabSpecMain.setContent(intentMain);
         tabHost.addTab(tabSpecMain);
 
 

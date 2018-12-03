@@ -4,6 +4,7 @@ package com.example.os150.tabhost;
 사용법 : 제목, 카테고리, 내용을 필수적으로 입력, 가격은 선택.
         완료버튼을 누르면 Datebase에 저장이 됩니다.
  */
+
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -15,6 +16,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,6 +26,7 @@ import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresPermission;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
@@ -44,7 +48,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class WriteActivity extends Activity{
+public class WriteActivity extends Activity {
 
     private final int CategoryResult = 100;
     private final int CameraResult = 200;
@@ -57,11 +61,11 @@ public class WriteActivity extends Activity{
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE,
     };
-
+    double longi,lati; //위도, 경도
     Button btnCaSelect;
     Button Write_OK;
     boolean WriteCheckResult;
-    ImageView itemImg1,itemImg2,itemImg3,itemImg4,itemImg5;
+    ImageView itemImg1, itemImg2, itemImg3, itemImg4, itemImg5;
     EditText editTitle, editPrice, editContents;
     CheckBox UseMap;
 
@@ -97,11 +101,28 @@ public class WriteActivity extends Activity{
                 startActivityForResult(intent, CategoryResult);
             }
         });
+
+
+        final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
         UseMap.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {        //지도 기능 확인.
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked) {
+                if (isChecked) {
                     Toast.makeText(WriteActivity.this, "현재 위치 정보를 받습니다.", Toast.LENGTH_SHORT).show();
+                    if (ActivityCompat.checkSelfPermission(WriteActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                            ActivityCompat.checkSelfPermission(WriteActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        Toast.makeText(WriteActivity.this, "앱을 재시작하여 권한을 설정해주세요.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                    String provider = location.getProvider();
+                    double longitude = location.getLongitude();
+                    double latitude = location.getLatitude();
+                    System.out.println("처음 받은 위도 : " + longitude +" 경도 : " + latitude);
+                    lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, gpsLocationListener);
+                    lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, gpsLocationListener);
                 } else {
                     AlertDialog.Builder build = new AlertDialog.Builder(WriteActivity.this);
                     build.setMessage("지도 기능을 끄면 지도에 판매글이 표시되지 않습니다. 지도 기능을 끄시겠습니까?");
@@ -129,23 +150,24 @@ public class WriteActivity extends Activity{
                 String titleCheck = editTitle.getText().toString();
                 String ContentsCheck = editContents.getText().toString();
                 int price = 0;
-                try{
+                try {
                     price = Integer.parseInt(editPrice.getText().toString());
-                } catch (NumberFormatException e) {}
-                if(titleCheck.length() == 0) {
+                } catch (NumberFormatException e) {
+                }
+                if (titleCheck.length() == 0) {
                     Toast.makeText(WriteActivity.this, "제목을 입력해주세요.", Toast.LENGTH_SHORT).show();
-                } else if(ContentsCheck.length() == 0) {
+                } else if (ContentsCheck.length() == 0) {
                     Toast.makeText(WriteActivity.this, "내용을 입력해주세요.", Toast.LENGTH_SHORT).show();
-                } else if(btnCaSelect.getText().toString().equals("카테고리 선택>")) {
+                } else if (btnCaSelect.getText().toString().equals("카테고리 선택>")) {
                     Toast.makeText(WriteActivity.this, "카테고리를 선택해주세요.", Toast.LENGTH_SHORT).show();
-                } else if(price == 0) {
+                } else if (price == 0) {
                     Writecheck();
                 }
                 //데이터 베이스 에 데이터 전송
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference myContents = database.getReference();
-                if(user!=null) {
+                if (user != null) {
                     String Title = editTitle.getText().toString();
                     String Price = editPrice.getText().toString();
                     String Contents = editContents.getText().toString();
@@ -153,11 +175,13 @@ public class WriteActivity extends Activity{
                     Catedata catedata = new Catedata(Name, Price, Contents, Title);
 
                     myContents.child("Market").child(btnCaSelect.getText().toString()).push().setValue(catedata);
-                }else{
-                    Toast.makeText(WriteActivity.this,"로그인을 해주세요",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(WriteActivity.this, "로그인을 해주세요", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
+
     }
 
     @Override
@@ -372,7 +396,23 @@ public class WriteActivity extends Activity{
         editPrice = null;
         editTitle = null;
         editContents = null;
+        UseMap.setChecked(false);
         NonPass();
     }
+
+    final LocationListener gpsLocationListener = new LocationListener() {
+        public void onLocationChanged(Location location) {
+            String provider = location.getProvider();   //받아온 방법
+            double longitude = location.getLongitude(); //위도
+            double latitude = location.getLatitude();   //경도
+            longi = longitude;
+            lati = latitude;
+            System.out.println("위도 : " + longitude + "경도 : " + latitude);
+        }
+        public void onStatusChanged(String provider, int status, Bundle extras) { }
+        public void onProviderEnabled(String provider) { }
+        public void onProviderDisabled(String provider) { } };
+
+
 
 }

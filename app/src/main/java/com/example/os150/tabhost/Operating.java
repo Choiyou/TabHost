@@ -22,16 +22,15 @@ public class Operating extends Activity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.operating);
-        final Button btn = (Button) findViewById(R.id.Permission);
 
-
-        btn.setOnClickListener(new View.OnClickListener() {
+        Thread th = new Thread(new Runnable() {
             @Override
-            public void onClick(View v) {
+            public void run() {
                 checkpermission();
-                btn.setText("권한 부여 완료! 다음으로");
             }
         });
+        th.start();
+
 
     }
     private void IntentRun() {

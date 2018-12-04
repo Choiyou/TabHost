@@ -62,8 +62,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         System.out.println("처음 받은 위도 : " + longitude +" 경도 : " + latitude);
         System.out.println("저장된 받은 위도 : " + latlng.longitude +" 경도 : " + latlng.latitude);
 
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, gpsLocationListener);
-        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, gpsLocationListener);
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100000, 1000, gpsLocationListener);
+        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 100000, 1000, gpsLocationListener);
         ImHere();
     }
 

@@ -161,26 +161,13 @@ public class WriteActivity extends Activity {
                 } else if (btnCaSelect.getText().toString().equals("카테고리 선택>")) {
                     Toast.makeText(WriteActivity.this, "카테고리를 선택해주세요.", Toast.LENGTH_SHORT).show();
                 } else if (price == 0) {
-                    Writecheck();
+                    editPrice.setText(0);
+                    Writecheck("금액을 0원으로 설정하시겠습니까?");
+                } else if (price != 0) {
+                    Writecheck("글을 올리시겠습니까?");
                 }
-                //데이터 베이스 에 데이터 전송
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myContents = database.getReference();
-                if (user != null) {
-                    String Title = editTitle.getText().toString();   //글제목
-                    String Price = editPrice.getText().toString();   //가격
-                    String Contents = editContents.getText().toString();//글내용
-                    String Name = btnCaSelect.getText().toString(); //글카테고리
-                    double Lat = lati;
-                    double Lng = longi;
 
-                    Catedata catedata = new Catedata(Name, Price, Contents, Title,Lat,Lng);
 
-                    myContents.child("Market").child(btnCaSelect.getText().toString()).push().setValue(catedata);
-                } else {
-                    Toast.makeText(WriteActivity.this, "로그인을 해주세요", Toast.LENGTH_SHORT).show();
-                }
             }
         });
 
@@ -356,16 +343,36 @@ public class WriteActivity extends Activity {
     }
 
     //boolean변수인 priceZero를 설정해줍니다.
-    private void Writecheck(){
+    private void Writecheck(String content) {
         AlertDialog.Builder alert_confirm = new AlertDialog.Builder(this);
-        alert_confirm.setMessage("금액을 0원으로 설정하고 완료하시겠습니까?")
+        alert_confirm.setMessage(content)
                 .setCancelable(false)
                 .setPositiveButton("네",
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(WriteActivity.this, "0원으로 설정하고 완료합니다.", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(WriteActivity.this, "0원으로 설정하고 완료합니다.", Toast.LENGTH_SHORT).show();
                                 Pass();
+
+                                //데이터 베이스 에 데이터 전송
+                                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                DatabaseReference myContents = database.getReference();
+
+                                if (user != null) {
+                                    String Title = editTitle.getText().toString();   //글제목
+                                    String Price = editPrice.getText().toString();   //가격
+                                    String Contents = editContents.getText().toString();//글내용
+                                    String Name = btnCaSelect.getText().toString(); //글카테고리
+                                    double Lat = lati;
+                                    double Lng = longi;
+
+                                    Catedata catedata = new Catedata(Name, Price, Contents, Title,Lat,Lng);
+
+                                    myContents.child("Market").child(btnCaSelect.getText().toString()).push().setValue(catedata);
+                                } else {
+                                    Toast.makeText(WriteActivity.this, "로그인을 해주세요", Toast.LENGTH_SHORT).show();
+                                }
                                 //파이어 베이스 글 올리는거 여기에 작성하면 됩니다!!!
                                 //WriteCheckResult 불 변수를 이용해서 참, 거짓 판별 가능.
 
@@ -376,7 +383,7 @@ public class WriteActivity extends Activity {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(WriteActivity.this, "금액을 다시 설정해주세요..", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(WriteActivity.this, "금액을 다시 설정해주세요..", Toast.LENGTH_SHORT).show();
                                 NonPass();
                             }
                         });
@@ -394,11 +401,12 @@ public class WriteActivity extends Activity {
         WriteCheckResult = false;
     }
 
+    //글 쓴거 초기화.
     private void Clear() {
         btnCaSelect.setText("카테고리 선택>");
-        editPrice = null;
-        editTitle = null;
-        editContents = null;
+        editPrice.setText(null);
+        editTitle.setText(null);
+        editContents.setText(null);
         UseMap.setChecked(false);
         NonPass();
     }

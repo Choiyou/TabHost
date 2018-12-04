@@ -168,11 +168,14 @@ public class WriteActivity extends Activity {
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference myContents = database.getReference();
                 if (user != null) {
-                    String Title = editTitle.getText().toString();
-                    String Price = editPrice.getText().toString();
-                    String Contents = editContents.getText().toString();
-                    String Name = btnCaSelect.getText().toString();
-                    Catedata catedata = new Catedata(Name, Price, Contents, Title);
+                    String Title = editTitle.getText().toString();   //글제목
+                    String Price = editPrice.getText().toString();   //가격
+                    String Contents = editContents.getText().toString();//글내용
+                    String Name = btnCaSelect.getText().toString(); //글카테고리
+                    double Lat = lati;
+                    double Lng = longi;
+
+                    Catedata catedata = new Catedata(Name, Price, Contents, Title,Lat,Lng);
 
                     myContents.child("Market").child(btnCaSelect.getText().toString()).push().setValue(catedata);
                 } else {
@@ -403,11 +406,11 @@ public class WriteActivity extends Activity {
     final LocationListener gpsLocationListener = new LocationListener() {
         public void onLocationChanged(Location location) {
             String provider = location.getProvider();   //받아온 방법
-            double longitude = location.getLongitude(); //위도
-            double latitude = location.getLatitude();   //경도
+            double longitude = location.getLongitude(); //경도
+            double latitude = location.getLatitude();   //위도
             longi = longitude;
             lati = latitude;
-            System.out.println("위도 : " + longitude + "경도 : " + latitude);
+            System.out.println("경도 : " + longitude + "위도 : " + latitude);
         }
         public void onStatusChanged(String provider, int status, Bundle extras) { }
         public void onProviderEnabled(String provider) { }

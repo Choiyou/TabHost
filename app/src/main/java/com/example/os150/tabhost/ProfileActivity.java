@@ -131,8 +131,12 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View view) {
         if (view == Using) {
             try {
-                if (user.getDisplayName() == null || user.getPhotoUrl().toString() == null) {
-                    Toast.makeText(this, "프로필 및 사용자 이름을 선택해주세요.", Toast.LENGTH_SHORT).show();
+                if(user.getDisplayName()==null){
+                    Toast.makeText(this, " 사용자 이름을 작성해주세요.", Toast.LENGTH_SHORT).show();
+
+                }
+                else if ( user.getPhotoUrl().toString() == null) {
+                    Toast.makeText(this, "프로필을 선택해주세요.", Toast.LENGTH_SHORT).show();
                 }
                 else{
                     mDatabase = FirebaseDatabase.getInstance().getReference("users");
@@ -153,8 +157,12 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         if (view == buttonLogout) {
 
             try {
-                if (user.getDisplayName() == null || user.getPhotoUrl().toString() == null) {
-                    Toast.makeText(this, "프로필 및 사용자 이름을 선택해주세요.", Toast.LENGTH_SHORT).show();
+                if(user.getDisplayName()==null){
+                    Toast.makeText(this, " 사용자 이름을 작성해주세요.", Toast.LENGTH_SHORT).show();
+
+                }
+                else if ( user.getPhotoUrl().toString() == null) {
+                    Toast.makeText(this, "프로필을 선택해주세요.", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     firebaseAuth.signOut();
@@ -170,8 +178,12 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
         if (view == ChangePassword) {
             try {
-                if (user.getDisplayName() == null || user.getPhotoUrl().toString() == null) {
-                    Toast.makeText(this, "프로필 및 사용자 이름을 선택해주세요.", Toast.LENGTH_SHORT).show();
+                if(user.getDisplayName()==null){
+                    Toast.makeText(this, " 사용자 이름을 작성해주세요.", Toast.LENGTH_SHORT).show();
+
+                }
+                else if ( user.getPhotoUrl().toString() == null) {
+                    Toast.makeText(this, "프로필을 선택해주세요.", Toast.LENGTH_SHORT).show();
                 }
                 else{
                     final EditText editCPassword = new EditText(ProfileActivity.this);
@@ -188,7 +200,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                                         public void onComplete(@NonNull Task<Void> task) {
                                             Toast.makeText(ProfileActivity.this, "비밀번호가 변경 되었습니다.", Toast.LENGTH_LONG).show();
                                             finish();
-                                            startActivity(new Intent(getApplicationContext(), MembershipActivity.class));
+                                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
                                         }
                                     });
                                 }
@@ -210,8 +222,12 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         //회원탈퇴를 클릭하면 회원정보를 삭제한다.
         if (view == userDelete) {
             try {
-                if (user.getDisplayName() == null || user.getPhotoUrl().toString() == null) {
-                    Toast.makeText(this, "프로필 및 사용자 이름을 선택해주세요.", Toast.LENGTH_SHORT).show();
+                if(user.getDisplayName()==null){
+                    Toast.makeText(this, " 사용자 이름을 작성해주세요.", Toast.LENGTH_SHORT).show();
+
+                }
+                else if ( user.getPhotoUrl().toString() == null) {
+                    Toast.makeText(this, "프로필을 선택해주세요.", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     AlertDialog.Builder alert_confirm2 = new AlertDialog.Builder(ProfileActivity.this);
@@ -224,7 +240,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     Toast.makeText(ProfileActivity.this, "계정이 삭제 되었습니다.", Toast.LENGTH_LONG).show();
                                                     finish();
-                                                    startActivity(new Intent(getApplicationContext(), MembershipActivity.class));
+                                                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
                                                 }
                                             });
                                 }
@@ -260,7 +276,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             user.updateProfile(profileUpdate).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
-                    if (user.getDisplayName() == "") {
+                    if (user.getDisplayName()==null) {
                         Toast.makeText(getApplicationContext(), "이름을 확인해 주세요.", Toast.LENGTH_SHORT).show();
                     }
                     if (task.isSuccessful()) {

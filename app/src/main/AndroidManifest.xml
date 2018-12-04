@@ -33,7 +33,6 @@
         <activity android:name=".TownSettingActivity" />
         <activity android:name=".FindActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".KeywordActivity" />
         <activity android:name=".SigninActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".ConnectmainActivity" />

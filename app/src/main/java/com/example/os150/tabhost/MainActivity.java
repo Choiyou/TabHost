@@ -43,31 +43,16 @@ public class MainActivity extends TabActivity {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);    //스테이터스바 제거.
         setContentView(R.layout.activity_main);
-        final TextView txtLoginInfo = (TextView) findViewById(R.id.loginInfo);
-        Button btnSales = (Button) findViewById(R.id.btnSales);
-        Button btnPurchase = (Button) findViewById(R.id.btnPurchase);
-        Button btnLikeProduct = (Button) findViewById(R.id.btnlikeProduct);
-        Button btnMyPosts = (Button) findViewById(R.id.btnMyPosts);
-        Button btnTownSetting = (Button) findViewById(R.id.btntownSetting);
-        Button btnKeyword = (Button) findViewById(R.id.btnKeyword);
-        Button btnSignin = (Button) findViewById(R.id.Signin);
-        Button btnLogin = (Button) findViewById(R.id.login);
         Context ctx = this.getApplicationContext();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-
-        if (user != null) {
-            txtLoginInfo.setText("회원 : " + user.getEmail());
-        } else {
-            txtLoginInfo.setText("비회원입니다.");
-        }
 
 
         TabHost tabHost = getTabHost();
 
 
         TabHost.TabSpec tabSpecMain = tabHost.newTabSpec("MAIN").setIndicator("메인");
-        Intent intentMain = new Intent(this,ConnectmainActivity.class);
+        Intent intentMain = new Intent(this, ConnectmainActivity.class);
         tabSpecMain.setContent(intentMain);
         tabHost.addTab(tabSpecMain);
 
@@ -90,18 +75,20 @@ public class MainActivity extends TabActivity {
         tabSpecWrite.setContent(intentwrite);
         tabHost.addTab(tabSpecWrite);
 
-
         TabHost.TabSpec tabSpecInfo = tabHost.newTabSpec("INFORMATION").setIndicator("개인정보");
-        tabSpecInfo.setContent(R.id.tab4);
+        Intent intentMinfo = new Intent(this,MembershipActivity.class);
+        tabSpecInfo.setContent(intentMinfo);
         tabHost.addTab(tabSpecInfo);
+
         for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++) {
 
             LinearLayout linearLayout = (LinearLayout) tabHost.getTabWidget().getChildAt(i);
 
             TextView tv = (TextView) linearLayout.getChildAt(1);
-            tv.setTextSize(9);
+            tv.setTextSize(7);
 
         }
+
 
 
         TabHost.TabSpec tabSpecChat = tabHost.newTabSpec("CHATTING").setIndicator("채팅");
@@ -115,20 +102,7 @@ public class MainActivity extends TabActivity {
         // tabHost.setCurrentTab(0);
 
 
-        txtLoginInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-                if (user != null) {
-                    Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(MainActivity.this, "로그인을 먼저 해주세요", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        });
         TabHost.TabSpec tabSpecMap = tabHost.newTabSpec("tab2");
         tabSpecMap.setIndicator("지도");
         Intent intentmap = new Intent(ctx, MapsActivity.class);
@@ -137,63 +111,8 @@ public class MainActivity extends TabActivity {
         tabHost.addTab(tabSpecMap);
 
 
-        btnSignin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SigninActivity.class);
-                startActivity(intent);
-            }
-        });
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(intent);
-            }
-        });
-        btnSales.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SaleActivity.class);
-                startActivity(intent);
-            }
-        });
 
-        btnPurchase.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), PurchaseActivity.class);
-                startActivity(intent);
-            }
-        });
-        btnLikeProduct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), LikeProductActivity.class);
-                startActivity(intent);
-            }
-        });
-        btnMyPosts.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MyPostsActivity.class);
-                startActivity(intent);
-            }
-        });
-        btnTownSetting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), TownSettingActivity.class);
-                startActivity(intent);
-            }
-        });
-        btnKeyword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), KeywordActivity.class);
-                startActivity(intent);
-            }
-        });
 
     }
 }
+

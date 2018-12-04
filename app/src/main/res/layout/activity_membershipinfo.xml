@@ -112,17 +112,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="동네 설정"/>
-                <Button
-                    android:background="@android:color/transparent"
-                    android:id="@+id/btnKeyword"
-                    android:paddingLeft="18dp"
-                    android:drawableLeft="@drawable/personinfo_keyword"
-                    android:drawablePadding="18dp"
-                    android:gravity="left|center_vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="키워드 알림"/>
+
             </TableRow>
         </TableLayout>
 

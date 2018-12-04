@@ -165,7 +165,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         Facebook_Login.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                startActivity(new Intent(LoginActivity.this, MembershipActivity.class));
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 System.out.println("Handler 실행...");
                 handleFacebookAccessToken(loginResult.getAccessToken());
             }
@@ -244,7 +244,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
                     Toast.makeText(LoginActivity.this, "인증 성공", Toast.LENGTH_SHORT).show();
                     finish();
-                    startActivity(new Intent(LoginActivity.this, MembershipActivity.class));
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
 
                 } else {
                     Toast.makeText(LoginActivity.this, "인증 실패", Toast.LENGTH_SHORT).show();

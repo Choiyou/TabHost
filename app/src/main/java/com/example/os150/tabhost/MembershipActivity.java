@@ -33,7 +33,6 @@ public class MembershipActivity extends Activity{
         Button btnLikeProduct = (Button) findViewById(R.id.btnlikeProduct);
         Button btnMyPosts = (Button) findViewById(R.id.btnMyPosts);
         Button btnTownSetting = (Button) findViewById(R.id.btntownSetting);
-        Button btnKeyword = (Button)findViewById(R.id.btnKeyword);
         Button btnSignin = (Button) findViewById(R.id.Signin);
         Button btnLogin = (Button) findViewById(R.id.login);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -114,13 +113,7 @@ public class MembershipActivity extends Activity{
                 startActivity(intent);
             }
         });
-        btnKeyword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), KeywordActivity.class);
-                startActivity(intent);
-            }
-        });
+
     }
 
 

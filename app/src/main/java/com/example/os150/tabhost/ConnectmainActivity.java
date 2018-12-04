@@ -39,23 +39,21 @@ public class ConnectmainActivity extends Activity {
         }
 
 
-        int ndataCnt=0;
         final ArrayList<itemData> oData = new ArrayList<>();
 
         FirebaseDatabase database =FirebaseDatabase.getInstance();
         DatabaseReference databaseReference =database.getReference("Market");
         databaseReference.child("뷰티,미용").addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                oData.clear();                                                  //올릴 데이터 초기화.
                 for(DataSnapshot fileSnapshot : dataSnapshot.getChildren()){
                     //하위키들 value 가져오기
                     itemData item = new itemData();
                     String strContents = fileSnapshot.child("contents").getValue(String.class);
                     String strTitle =fileSnapshot.child("title").getValue(String.class);
                     String strPrice=fileSnapshot.child("price").getValue(String.class);
-                    //fileList.add(strContents);
-                    //fileList.add(strPrice);
-                    //fileList.add(strTitle);
                     item.title = strTitle;
                     item.price = strPrice;
                     item.content = strContents;
@@ -64,13 +62,12 @@ public class ConnectmainActivity extends Activity {
                 m_oListView = (ListView)findViewById(R.id.listView);
                 ListAdapter oAdapter = new ListAdapter(oData);
                 m_oListView.setAdapter(oAdapter);
+                oAdapter.notifyDataSetChanged();        //원본 다시 읽어 재생성.
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.w("TAG:","Failed to read value",databaseError.toException());
             }
         });
-        //Toast.makeText(getApplicationContext(),"카테고리 별 레이아웃 입니다.", Toast.LENGTH_SHORT).show();
     }
 }

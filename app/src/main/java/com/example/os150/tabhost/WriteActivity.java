@@ -364,10 +364,11 @@ public class WriteActivity extends Activity {
                                     String Price = editPrice.getText().toString();   //가격
                                     String Contents = editContents.getText().toString();//글내용
                                     String Name = btnCaSelect.getText().toString(); //글카테고리
+                                    String UserName = user.getDisplayName().toString();
                                     double Lat = lati;
                                     double Lng = longi;
 
-                                    Catedata catedata = new Catedata(Name, Price, Contents, Title,Lat,Lng);
+                                    Catedata catedata = new Catedata(Name, Price, Contents, Title,UserName,Lat,Lng);
 
                                     myContents.child("Market").child(btnCaSelect.getText().toString()).push().setValue(catedata);
                                 } else {

@@ -167,6 +167,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 else {
                     firebaseAuth.signOut();
                     LoginManager.getInstance().logOut();
+                    mDatabase = FirebaseDatabase.getInstance().getReference("users");
+                    mDatabase.child("users").child(user.getUid()).setValue(null);
+
                     finish();
                     startActivity(new Intent(this, MembershipActivity.class));
                 }
@@ -243,7 +246,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                                                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
                                                 }
                                             });
+                                    mDatabase = FirebaseDatabase.getInstance().getReference("users");
+                                    mDatabase.child("users").child(user.getUid()).setValue(null);
+
                                 }
+
                             }
                     );
                     alert_confirm2.setNegativeButton("취소", new DialogInterface.OnClickListener() {

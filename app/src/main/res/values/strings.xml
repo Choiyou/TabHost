@@ -2,4 +2,48 @@
     <string name="app_name">중고거래</string>
     <string name="facebook_app_id">296116301227825</string>
     <string name="fb_login_protocol_scheme">fb345922286215653</string>
+    <string name="make_an_order">Make an order</string>
+
+    <string name="dialog_title">관심상품을 골라주세요.</string>
+
+    <string name="ok_label">선택완료</string>
+
+    <string name="dismiss_label">취소</string>
+
+    <string name="clear_all_label">Clear all</string>
+
+
+
+    <string-array name="Product_item">
+
+        <item>디지털,가전</item>
+
+        <item>가구,인테리어</item>
+
+        <item>유아동,유아독서</item>
+
+        <item>생활,가공식품</item>
+
+        <item>여성의류</item>
+
+        <item>여성잡화</item>
+
+        <item>뷰티,미용</item>
+
+        <item>남성패션,잡화</item>
+
+        <item>스포츠,레저</item>
+
+        <item>게임,취미</item>
+
+        <item>도서,티켓,음반</item>
+
+        <item>반려동물용품</item>
+
+        <item>기타 중고 물품</item>
+
+        <item>삽니다</item>
+
+        <item>무료나눔,대여</item>
+    </string-array>
 </resources>

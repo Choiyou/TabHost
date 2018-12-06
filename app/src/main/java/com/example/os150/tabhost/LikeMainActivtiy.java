@@ -1,9 +1,10 @@
 package com.example.os150.tabhost;
 
-import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -16,28 +17,29 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.ArrayList;
 
 /**
- * Created by os150 on 2018-10-30.
+ * Created by os150 on 2018-12-05.
  */
 
-public class MyPostsActivity extends Activity {
+public class LikeMainActivtiy extends AppCompatActivity {
     private ListView m_oListView = null;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_myposts);
-
-
-
+        setContentView(R.layout.activity_likemain);
+        getIntent();
         final ArrayList<itemData> oData = new ArrayList<>();
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseDatabase database =FirebaseDatabase.getInstance();
         DatabaseReference databaseReference =database.getReference("Market");
+        database.getReference().child(user.getDisplayName()).child("select").orderByChild("item0");
+        Toast.makeText(getApplicationContext(),database.toString(),Toast.LENGTH_LONG).show();
         databaseReference.child("뷰티,미용").addValueEventListener(new ValueEventListener() {
 
             @Override
@@ -64,5 +66,6 @@ public class MyPostsActivity extends Activity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+        Toast.makeText(getApplicationContext(),"Main",Toast.LENGTH_LONG).show();
     }
 }

@@ -12,6 +12,7 @@ public class ChatMain extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_main);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);//상단바 없애기
 
         getFragmentManager().beginTransaction().replace(R.id.chatmain_framelayout,new PeopleFragment()).commit();
 

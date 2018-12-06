@@ -34,6 +34,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -165,6 +166,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         Facebook_Login.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 System.out.println("Handler 실행...");
                 handleFacebookAccessToken(loginResult.getAccessToken());

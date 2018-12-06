@@ -14,5 +14,5 @@
     <item
         android:id="@+id/action_account"
         android:icon="@drawable/chat_account"
-        android:title="Account"/>
+        android:title="account"/>
 </menu>

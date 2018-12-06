@@ -5,9 +5,10 @@ package com.example.os150.tabhost;
  */
 
 public class Userdata {
-    private String userName;
-    private String profile;
-    private String userEmail;
+    public String userName;
+    public String profile;
+    public String userEmail;
+    public String uid;
 
     public Userdata(String userName,String profile,String userEmail){
         this.userName = userName;

@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.os150.tabhost.model.UserModel;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -60,8 +61,8 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
         textViewSignin.setOnClickListener(this);
     }
     private void registerUser() {
-        String email = editTextEmail.getText().toString().trim();
-        String password = editTextPassword.getText().toString().trim();
+        final String email = editTextEmail.getText().toString().trim();
+        final String password = editTextPassword.getText().toString().trim();
         if (TextUtils.isEmpty(email)) {
             Toast.makeText(this, "Email을 입력해 주세요.", Toast.LENGTH_SHORT).show();
             return;
@@ -77,6 +78,21 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+
+                        final String uid = task.getResult().getUser().getUid();
+
+                        UserModel userModel = new UserModel();
+                        userModel.userName = email;
+                        userModel.uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                        FirebaseDatabase.getInstance().getReference().child("users").child(uid).setValue(userModel).addOnSuccessListener(new OnSuccessListener<Void>() {
+
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                SigninActivity.this.finish();
+                            }
+                        });
+
                         if (task.isSuccessful()) {
                             finish();
                             startActivity(new Intent(getApplicationContext(), ProfileActivity.class));

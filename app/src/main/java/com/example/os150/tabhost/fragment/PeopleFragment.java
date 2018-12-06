@@ -8,12 +8,14 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -24,6 +26,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -50,21 +53,24 @@ public class PeopleFragment extends Fragment{
 
         List<UserModel> userModels;
 
+        //DB 접속을 위한 constructor
         public PeopleFragmentRecyclerViewAdapter() {
             userModels = new ArrayList<>();
+
             final String myUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
             FirebaseDatabase.getInstance().getReference().child("users").addValueEventListener(new ValueEventListener() {
                 @Override
+                //서버에서 넘어온 데이터
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     userModels.clear();
                     for(DataSnapshot snapshot :dataSnapshot.getChildren()){
                         userModels.add(snapshot.getValue(UserModel.class));
 
-//                        if(userModels.equlas(myUid)){
+//                        if(userModels.equals(myUid)){
 //                            continue;
 //                        }userModels.add((UserModel) userModels);
                     }
-                    notifyDataSetChanged();
+                    notifyDataSetChanged();//새로고침
                 }
 
                 @Override
@@ -85,16 +91,18 @@ public class PeopleFragment extends Fragment{
 
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
-            //데이터 넣어주는 역할 username이랑 사진 불러오기
 
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
             Glide.with
                     (holder.itemView.getContext())
-                    .load(user.getPhotoUrl())
+                    .load(userModels.get(position).profileImageUrl)
                     .apply(new RequestOptions().circleCrop())
                     .into(((CustomViewHolder)holder).imageView);
-            ((CustomViewHolder)holder).textView.setText(user.getDisplayName());
+            ((CustomViewHolder)holder).textView.setText(userModels.get(position).userName);
+
+            Log.v("알림","uid2"+userModels.get(position).uid);
+            Log.v("알림","name2"+userModels.get(position).userName);
+            Log.v("알림","image2"+userModels.get(position).profileImageUrl);
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

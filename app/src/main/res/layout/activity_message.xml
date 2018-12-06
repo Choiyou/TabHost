@@ -6,6 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".Chat.MessageActivity">
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/messageActivity_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="462dp">
+
+    </android.support.v7.widget.RecyclerView>
     <EditText
         android:layout_toLeftOf="@+id/messageActivity_button"
         android:layout_alignParentBottom="true"

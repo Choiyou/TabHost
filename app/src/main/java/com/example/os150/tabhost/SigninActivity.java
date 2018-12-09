@@ -85,7 +85,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
                         userModel.userName = email;
                         userModel.uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                        FirebaseDatabase.getInstance().getReference().child("users").child(uid).setValue(userModel).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        FirebaseDatabase.getInstance().getReference().child("chatusers").child(uid).setValue(userModel).addOnSuccessListener(new OnSuccessListener<Void>() {
 
                             @Override
                             public void onSuccess(Void aVoid) {

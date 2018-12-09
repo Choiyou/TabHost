@@ -3,6 +3,7 @@ package com.example.os150.tabhost.fragment;
 import android.app.ActivityOptions;
 import android.app.Fragment;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -58,7 +59,7 @@ public class PeopleFragment extends Fragment{
             userModels = new ArrayList<>();
 
             final String myUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-            FirebaseDatabase.getInstance().getReference().child("users").addValueEventListener(new ValueEventListener() {
+            FirebaseDatabase.getInstance().getReference().child("chatusers").addValueEventListener(new ValueEventListener() {
                 @Override
                 //서버에서 넘어온 데이터
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -100,17 +101,16 @@ public class PeopleFragment extends Fragment{
                     .into(((CustomViewHolder)holder).imageView);
             ((CustomViewHolder)holder).textView.setText(userModels.get(position).userName);
 
-            Log.v("알림","uid2"+userModels.get(position).uid);
-            Log.v("알림","name2"+userModels.get(position).userName);
-            Log.v("알림","image2"+userModels.get(position).profileImageUrl);
-
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(view.getContext(),MessageActivity.class);
-                    intent.putExtra("dstinationUid",userModels.get(position).uid);
-                    ActivityOptions activityOptions = ActivityOptions.makeCustomAnimation(view.getContext(),R.anim.toright,R.anim.toleft);
-                    startActivity(intent,activityOptions.toBundle());
+                    intent.putExtra("destinationUid",userModels.get(position).uid);//상대방 uid
+                    ActivityOptions activityOptions = null;
+                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN){
+                        activityOptions = ActivityOptions.makeCustomAnimation(view.getContext(),R.anim.toright,R.anim.toleft);
+                        startActivity(intent,activityOptions.toBundle());
+                    }
                 }
             });
         }

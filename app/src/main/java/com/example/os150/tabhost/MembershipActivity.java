@@ -27,11 +27,9 @@ import java.util.ArrayList;
  */
 
 public class MembershipActivity extends Activity{
-    String[] listItems;
-    boolean[] checkedItems;
-    ArrayList<Integer> mUserItems = new ArrayList<>();
+
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    DatabaseReference mDatabase ;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,75 +101,8 @@ public class MembershipActivity extends Activity{
         btnLikeProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(getApplicationContext(), LikeProductActivity.class);
-//                startActivity(intent);
-
-
-                mDatabase = FirebaseDatabase.getInstance().getReference("usercheck").child(user.getDisplayName()).child("select");
-
-                mUserItems.clear();
-                mDatabase.removeValue();
-                listItems = getResources().getStringArray(R.array.Product_item);
-                checkedItems = new boolean[listItems.length];
-//                mDatabase = FirebaseDatabase.getInstance().getReference("usercheck").child(user.getDisplayName());
-
-                            AlertDialog.Builder mBuilder = new AlertDialog.Builder(MembershipActivity.this);
-                            mBuilder.setTitle(R.string.dialog_title);
-                            mBuilder.setMultiChoiceItems(listItems, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
-
-                                    if(isChecked){
-                                        mUserItems.add(position);
-                                    }else{
-                                        mUserItems.remove((Integer.valueOf(position)));
-                                    }
-                                }
-                            });
-
-
-
-                            mBuilder.setCancelable(false);
-                            mBuilder.setPositiveButton(R.string.ok_label, new DialogInterface.OnClickListener() {
-
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int which) {
-                                    String item = "";
-                                    for (int i = 0; i < mUserItems.size(); i++) {
-                                        item = item + listItems[mUserItems.get(i)];
-                                        if (i != mUserItems.size() - 1) {
-                                            item = item + "\n ";
-
-                                        }
-
-                                    }
-
-                                    String date[] = item.split("\n");
-
-                                    for(int i=0 ; i<date.length ; i++)
-                                    {
-
-                                        System.out.println("date["+i+"] : "+date[i]);
-                                        mDatabase.child("item"+i).setValue(date[i]);
-                                        }
-
-                                    Intent intent = new Intent(getApplicationContext(),LikeMainActivtiy.class);
-                                    startActivity(intent);
-
-                                }
-
-                            });
-
-                            mBuilder.setNegativeButton(R.string.dismiss_label, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    dialogInterface.dismiss();
-                                }
-                            });
-
-                            AlertDialog mDialog = mBuilder.create();
-
-                            mDialog.show();
+                Intent intent = new Intent(getApplicationContext(), LikeMainActivtiy.class);
+                startActivity(intent);
 
             }
         });

@@ -38,9 +38,7 @@ public class LikeMainActivtiy extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseDatabase database =FirebaseDatabase.getInstance();
         DatabaseReference databaseReference =database.getReference("Market");
-        database.getReference().child(user.getDisplayName()).child("select").orderByChild("item0");
-        Toast.makeText(getApplicationContext(),database.toString(),Toast.LENGTH_LONG).show();
-        databaseReference.child("뷰티,미용").addValueEventListener(new ValueEventListener() {
+        databaseReference.child("디지털,가전").addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -56,7 +54,7 @@ public class LikeMainActivtiy extends AppCompatActivity {
                     item.content = strContents;
                     oData.add(item);
                 }
-                m_oListView = (ListView)findViewById(R.id.listView);
+                m_oListView = (ListView)findViewById(R.id.listview);
                 ListAdapter oAdapter = new ListAdapter(oData);
                 m_oListView.setAdapter(oAdapter);
                 oAdapter.notifyDataSetChanged();        //원본 다시 읽어 재생성.

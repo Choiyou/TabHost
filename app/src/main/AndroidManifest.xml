@@ -28,7 +28,6 @@
         <activity android:name=".MainActivity"/>
         <activity android:name=".SaleActivity" />
         <activity android:name=".PurchaseActivity" />
-        <activity android:name=".LikeProductActivity" />
         <activity android:name=".MyPostsActivity" />
         <activity android:name=".TownSettingActivity" />
         <activity android:name=".FindActivity" />

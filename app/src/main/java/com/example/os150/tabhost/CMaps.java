@@ -58,31 +58,40 @@ public class CMaps extends FragmentActivity implements OnMapReadyCallback {
         searchbutton = (Button) findViewById(R.id.MapButton);
         lanText = (TextView) findViewById(R.id.lanText);
         lonText = (TextView) findViewById(R.id.lonText);
+
         mDatabase = FirebaseDatabase.getInstance().getReference("townsetting").child(user.getDisplayName());
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.cmap);
         mapFragment.getMapAsync(this);
 
-        mDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                double lat2 = dataSnapshot.child("lat2").getValue(double.class);
-                double lng2 = dataSnapshot.child("lng2").getValue(double.class);
-                String townname = dataSnapshot.child("townname").getValue(String.class);
-                System.out.println("lat : "+lat2+"/ lng : "+lng2+"/townname : "+townname);
+//
+//            mDatabase.addValueEventListener(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                    double lat2 = dataSnapshot.child("lat2").getValue(double.class);
+//                    double lng2 = dataSnapshot.child("lng2").getValue(double.class);
+//                    String townname = dataSnapshot.child("townname").getValue(String.class);
+//                    System.out.println("lat : " + lat2 + "/ lng : " + lng2 + "/townname : " + townname);
+//
+//
+//                }
+//
+//                @Override
+//                public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                }
+//            });
+//        }
+//        else{
+//            LatLng setting = new LatLng(37,127);
+//            gMap.addMarker(new MarkerOptions().position(setting).title("설정되어있는 위치"));
+//            gMap.moveCamera(CameraUpdateFactory.newLatLng(setting));
+//            lanText.setText("위도 : "+37);
+//            lonText.setText("경도 : "+127);
 
-                LatLng setting = new LatLng(lat2,lng2);
-                gMap.addMarker(new MarkerOptions().position(setting).title("설정되어있는 위치"));
-                gMap.moveCamera(CameraUpdateFactory.newLatLng(setting));
-                lanText.setText("위도 : "+lat2);
-                lonText.setText("경도 : "+lng2);
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
+//        }
     }
 
     @Override
@@ -151,8 +160,11 @@ public class CMaps extends FragmentActivity implements OnMapReadyCallback {
         });
 
 
-
-
+        LatLng setting = new LatLng(37,127);
+        gMap.addMarker(new MarkerOptions().position(setting).title("설정되어있는 위치"));
+        gMap.moveCamera(CameraUpdateFactory.newLatLng(setting));
+        lanText.setText("위도 : "+37);
+        lonText.setText("경도 : "+127);
 
 
 

@@ -1,7 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ListView
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/listView">
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <Button
+            android:id="@+id/selectButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="관심 카테고리 선택"
+            android:layout_gravity="right"/>
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/listview">
+        </ListView>
+    </LinearLayout>
 
-</ListView>
+
+
+</android.support.constraint.ConstraintLayout>

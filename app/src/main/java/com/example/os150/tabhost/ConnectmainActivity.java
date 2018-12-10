@@ -43,7 +43,7 @@ public class ConnectmainActivity extends Activity {
 
         FirebaseDatabase database =FirebaseDatabase.getInstance();
         DatabaseReference databaseReference =database.getReference("Market");
-        databaseReference.child("뷰티,미용").addValueEventListener(new ValueEventListener() {
+        databaseReference.child("Main").addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

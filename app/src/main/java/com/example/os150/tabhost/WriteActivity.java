@@ -371,6 +371,8 @@ public class WriteActivity extends Activity {
                                     Catedata catedata = new Catedata(Name, Price, Contents, Title,UserName,Lat,Lng);
 
                                     myContents.child("Market").child(btnCaSelect.getText().toString()).push().setValue(catedata);
+                                    myContents.child("Market").child("Main").push().setValue(catedata);
+
                                 } else {
                                     Toast.makeText(WriteActivity.this, "로그인을 해주세요", Toast.LENGTH_SHORT).show();
                                 }

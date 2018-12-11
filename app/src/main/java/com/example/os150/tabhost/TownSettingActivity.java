@@ -8,10 +8,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.example.os150.tabhost.model.ListAdapter;
-import com.example.os150.tabhost.model.itemData;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -27,7 +24,7 @@ import java.util.ArrayList;
  */
 
 public class TownSettingActivity extends Activity {
-    private ListView m_oListView = null;
+    private ListView mListView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,8 +44,17 @@ public class TownSettingActivity extends Activity {
         });
 
 
-        final ArrayList<itemData> oData = new ArrayList<>();
 
+        //위젯과 멤버 변수 참조 획득
+        mListView = (ListView)findViewById(R.id.listView2);
+        //아이템추가 및 어댑터 등록
+        dataSetting();
+    }
+    private void dataSetting() {
+
+        final MyAdapter mMyAdapter = new MyAdapter();
+
+        //final ArrayList<MyItem> oData = new ArrayList<>();
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = database.getReference("Market");
@@ -56,28 +62,36 @@ public class TownSettingActivity extends Activity {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                oData.clear();                                                  //올릴 데이터 초기화.
+                //올릴 데이터 초기화.
+                // oData.clear();
+
                 for (DataSnapshot fileSnapshot : dataSnapshot.getChildren()) {
                     //하위키들 value 가져오기
-                    itemData item = new itemData();
+
                     String strContents = fileSnapshot.child("contents").getValue(String.class);
                     String strTitle = fileSnapshot.child("title").getValue(String.class);
-                    String strPrice = fileSnapshot.child("price").getValue(String.class);
-                    item.title = strTitle;
-                    item.price = strPrice;
-                    item.content = strContents;
-                    oData.add(item);
+                    String strPrice = fileSnapshot.child("price").getValue(String.class)+"원";
+                    String strCategory = fileSnapshot.child("category").getValue(String.class);
+
+                    mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory);
+
                 }
-                m_oListView = (ListView) findViewById(R.id.listView2);
-                ListAdapter oAdapter = new ListAdapter(oData);
-                m_oListView.setAdapter(oAdapter);
-                oAdapter.notifyDataSetChanged();        //원본 다시 읽어 재생성.
+
+
+                mListView.setAdapter(mMyAdapter);
+
+                mMyAdapter.notifyDataSetChanged();
+
             }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
+
+
     }
 
 }

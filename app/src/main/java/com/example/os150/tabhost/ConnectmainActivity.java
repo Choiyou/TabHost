@@ -5,32 +5,27 @@ package com.example.os150.tabhost;
 
 작성 :2014244094 성해성
 */
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 
-import com.example.os150.tabhost.model.ListAdapter;
-import com.example.os150.tabhost.model.itemData;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
+public class ConnectmainActivity extends AppCompatActivity {
+    private ListView mListView;
+    static boolean calledAlready = false;
 
-public class ConnectmainActivity extends Activity {
-    private ListView m_oListView = null;
 
-    static boolean calledAlready =false;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.listview);
-
         if(!calledAlready)
         {
             FirebaseDatabase.getInstance().setPersistenceEnabled(true);
@@ -38,36 +33,53 @@ public class ConnectmainActivity extends Activity {
             calledAlready =true;
         }
 
+        //위젯과 멤버 변수 참조 획득
+        mListView = (ListView)findViewById(R.id.listView);
+        //아이템추가 및 어댑터 등록
+        dataSetting();
+    }
+    private void dataSetting() {
 
-        final ArrayList<itemData> oData = new ArrayList<>();
+        final MyAdapter mMyAdapter = new MyAdapter();
 
-        FirebaseDatabase database =FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference =database.getReference("Market");
+        //final ArrayList<MyItem> oData = new ArrayList<>();
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = database.getReference("Market");
         databaseReference.child("Main").addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                oData.clear();                                                  //올릴 데이터 초기화.
-                for(DataSnapshot fileSnapshot : dataSnapshot.getChildren()){
+                //올릴 데이터 초기화.
+               // oData.clear();
+
+                for (DataSnapshot fileSnapshot : dataSnapshot.getChildren()) {
                     //하위키들 value 가져오기
-                    itemData item = new itemData();
+
                     String strContents = fileSnapshot.child("contents").getValue(String.class);
-                    String strTitle =fileSnapshot.child("title").getValue(String.class);
-                    String strPrice=fileSnapshot.child("price").getValue(String.class);
-                    item.title = strTitle;
-                    item.price = strPrice;
-                    item.content = strContents;
-                    oData.add(item);
+                    String strTitle = fileSnapshot.child("title").getValue(String.class);
+                    String strPrice = fileSnapshot.child("price").getValue(String.class)+"원";
+                    String strCategory = fileSnapshot.child("category").getValue(String.class);
+
+                    mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory);
+
                 }
-                m_oListView = (ListView)findViewById(R.id.listView);
-                ListAdapter oAdapter = new ListAdapter(oData);
-                m_oListView.setAdapter(oAdapter);
-                oAdapter.notifyDataSetChanged();        //원본 다시 읽어 재생성.
+
+
+                mListView.setAdapter(mMyAdapter);
+
+                mMyAdapter.notifyDataSetChanged();
+
             }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
+
+
     }
 }
+

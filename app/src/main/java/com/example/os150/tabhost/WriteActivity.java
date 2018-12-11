@@ -23,10 +23,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.provider.Settings;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresPermission;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
@@ -369,10 +366,8 @@ public class WriteActivity extends Activity {
                                     double Lng = longi;
 
                                     Catedata catedata = new Catedata(Name, Price, Contents, Title,UserName,Lat,Lng);
-
-                                    myContents.child("Market").child(btnCaSelect.getText().toString()).push().setValue(catedata);
                                     myContents.child("Market").child("Main").push().setValue(catedata);
-
+                                    myContents.child("Market").child(btnCaSelect.getText().toString()).push().setValue(catedata);
                                 } else {
                                     Toast.makeText(WriteActivity.this, "로그인을 해주세요", Toast.LENGTH_SHORT).show();
                                 }

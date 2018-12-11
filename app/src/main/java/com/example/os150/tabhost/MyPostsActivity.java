@@ -44,7 +44,7 @@ public class MyPostsActivity extends Activity {
         //final ArrayList<MyItem> oData = new ArrayList<>();
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference databaseReference = database.getReference("Market");
         databaseReference.child("Main").orderByChild("userName").equalTo(user.getDisplayName()).addValueEventListener(new ValueEventListener() {
 
@@ -60,9 +60,10 @@ public class MyPostsActivity extends Activity {
                     String strTitle = fileSnapshot.child("title").getValue(String.class);
                     String strPrice = fileSnapshot.child("price").getValue(String.class)+"원";
                     String strCategory = fileSnapshot.child("category").getValue(String.class);
+                    String strUserEmail = fileSnapshot.child("userEmail").getValue(String.class);
+                    String strUserName = fileSnapshot.child("userName").getValue(String.class);
 
-                    mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory);
-
+                    mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory,strUserEmail,strUserName);
                 }
 
 

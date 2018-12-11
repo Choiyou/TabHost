@@ -55,7 +55,7 @@ public class TownSettingActivity extends Activity {
         final MyAdapter mMyAdapter = new MyAdapter();
 
         //final ArrayList<MyItem> oData = new ArrayList<>();
-
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = database.getReference("Market");
         databaseReference.child("Main").addValueEventListener(new ValueEventListener() {
@@ -72,8 +72,10 @@ public class TownSettingActivity extends Activity {
                     String strTitle = fileSnapshot.child("title").getValue(String.class);
                     String strPrice = fileSnapshot.child("price").getValue(String.class)+"원";
                     String strCategory = fileSnapshot.child("category").getValue(String.class);
+                    String strUserEmail = fileSnapshot.child("UserEmail").getValue(String.class);
+                    String strUserName = fileSnapshot.child("UserName").getValue(String.class);
 
-                    mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory);
+                    mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory,strUserEmail,strUserName);
 
                 }
 

@@ -64,9 +64,12 @@ public class MyAdapter extends BaseAdapter {
                 intent.putExtra("contents",myItem.getContents());
                 intent.putExtra("price",myItem.getPrice());
                 intent.putExtra("category",myItem.getCategory());
+                intent.putExtra("userEmail",myItem.getUserEmail());
+                intent.putExtra("userName",myItem.getUserName());
                 context.startActivity(intent);
             }
         });
+
 
         /*tv_Contents.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,13 +86,15 @@ public class MyAdapter extends BaseAdapter {
         });*/
         return convertView;
     }
-    public void addItem(String Title, String Price,String Contents,String Category){
+    public void addItem(String Title, String Price,String Contents,String Category,String UserEmail,String UserName){
         MyItem mItem = new MyItem();
         //MyItem에 아이템을 setting 한다
         mItem.setTitle(Title);
         mItem.setPrice(Price);
         mItem.setContents(Contents);
         mItem.setCategory(Category);
+        mItem.setUserEmail(UserEmail);
+        mItem.setUserName(UserName);
 
         //myItem에 MyItem을 추가한다
         mItems.add(mItem);

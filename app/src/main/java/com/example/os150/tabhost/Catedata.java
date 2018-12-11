@@ -7,17 +7,19 @@ public class Catedata {
     private String Price;
     private String Contents;
     private String Title;
-    private String UserName;
+    private String UserEmail;
     private double Lat;
     private double Lng;
-    public Catedata(String Category,String Price,String Contents,String Title,String UserName, double Lat,double Lng){
+    private String UserName;
+    public Catedata(String Category,String Price,String Contents,String Title,String UserEmail,String UserName, double Lat,double Lng){
         this.Category = Category;
         this.Contents = Contents;
         this.Price = Price;
         this.Title = Title;
-        this.UserName = UserName;
+        this.UserEmail = UserEmail;
         this.Lat = Lat;
         this.Lng = Lng;
+        this.UserName =UserName;
     }
     public String getCategory(){
         return Category;
@@ -44,11 +46,11 @@ public class Catedata {
     public void setTitle(String Title){
         this.Title=Title;
     }
-    public String getUserName(){
-        return UserName;
+    public String getUserEmail(){
+        return UserEmail;
     }
-    public void setUserName(String userName){
-        this.UserName = UserName;
+    public void setUserEmail(String UserEmail){
+        this.UserEmail = UserEmail;
     }
     public double getLat(){
         return  Lat;
@@ -61,5 +63,11 @@ public class Catedata {
     }
     public void setLng(double Lng){
         this.Lng = Lng;
+    }
+    public String getUserName(){
+        return  UserName;
+    }
+    public void setUserName(String UserName){
+        this.UserName = UserName;
     }
 }

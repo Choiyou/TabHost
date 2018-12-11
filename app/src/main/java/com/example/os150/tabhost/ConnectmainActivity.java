@@ -11,6 +11,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -44,6 +46,7 @@ public class ConnectmainActivity extends AppCompatActivity {
 
         //final ArrayList<MyItem> oData = new ArrayList<>();
 
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = database.getReference("Market");
         databaseReference.child("Main").addValueEventListener(new ValueEventListener() {
@@ -60,8 +63,10 @@ public class ConnectmainActivity extends AppCompatActivity {
                     String strTitle = fileSnapshot.child("title").getValue(String.class);
                     String strPrice = fileSnapshot.child("price").getValue(String.class)+"원";
                     String strCategory = fileSnapshot.child("category").getValue(String.class);
+                    String strUserEmail = fileSnapshot.child("userEmail").getValue(String.class);
+                    String strUserName = fileSnapshot.child("userName").getValue(String.class);
 
-                    mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory);
+                    mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory,strUserEmail,strUserName);
 
                 }
 

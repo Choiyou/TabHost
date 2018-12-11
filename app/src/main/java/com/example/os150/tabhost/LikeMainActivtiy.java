@@ -123,7 +123,7 @@ public class LikeMainActivtiy extends AppCompatActivity {
         final MyAdapter mMyAdapter = new MyAdapter();
 
         //final ArrayList<MyItem> oData = new ArrayList<>();
-
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = database.getReference("Market");
         databaseReference.child("Main").addValueEventListener(new ValueEventListener() {
@@ -140,9 +140,9 @@ public class LikeMainActivtiy extends AppCompatActivity {
                     String strTitle = fileSnapshot.child("title").getValue(String.class);
                     String strPrice = fileSnapshot.child("price").getValue(String.class)+"원";
                     String strCategory = fileSnapshot.child("category").getValue(String.class);
-
-                    mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory);
-
+                    String strUserEmail = fileSnapshot.child("userEmail").getValue(String.class);
+                    String strUserName = fileSnapshot.child("userName").getValue(String.class);
+                    mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory,strUserEmail,strUserName);
                 }
 
 

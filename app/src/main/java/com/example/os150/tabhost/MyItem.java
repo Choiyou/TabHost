@@ -6,6 +6,8 @@ public class MyItem {
     private String Price;
     private String Contents;
     private String Category;
+    private String UserEmail;
+    private String UserName;
     public String getTitle(){
         return Title;
     }
@@ -31,5 +33,17 @@ public class MyItem {
     }
     public void setCategory(String Category){
         this.Category = Category;
+    }
+    public String getUserEmail(){
+        return  UserEmail;
+    }
+    public void setUserEmail(String UserEmail){
+        this.UserEmail = UserEmail;
+    }
+    public String getUserName(){
+        return UserName;
+    }
+    public void setUserName(String UserName){
+        this.UserName = UserName;
     }
 }

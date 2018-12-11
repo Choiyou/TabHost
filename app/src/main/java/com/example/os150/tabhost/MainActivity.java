@@ -92,12 +92,18 @@ public class MainActivity extends TabActivity {
 
 
         TabHost.TabSpec tabSpecChat = tabHost.newTabSpec("CHATTING").setIndicator("채팅");
-        Intent intentChat = new Intent(this, ChatMain.class);
 
-        /* try{
+        Intent intentChat = new Intent(this, ChatMain.class);
+        Intent intentChatFail = new Intent(this,ChatFailActivity.class);
+
+        if(FirebaseAuth.getInstance().getCurrentUser() == null){
+            tabSpecChat.setContent(intentChatFail);
+        }else{
             tabSpecChat.setContent(intentChat);
-        }catch(InflateException e){} */
-        tabSpecChat.setContent(intentChat);
+        }
+//        try{
+//            tabSpecChat.setContent(intentChat);
+//        }catch(InflateException e){}
         tabHost.addTab(tabSpecChat);
         // tabHost.setCurrentTab(0);
 

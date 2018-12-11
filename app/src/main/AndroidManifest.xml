@@ -41,6 +41,8 @@
         <activity android:name=".WriteActivity"/>
         <activity android:name=".MembershipActivity"/>
         <activity android:name=".LikeMainActivtiy"/>
+        <activity android:name=".ViewActivity"/>
+        <activity android:name=".SecondmainActivity"/>
         <activity android:name=".CMaps"/>
 
         <activity android:name=".Operating">

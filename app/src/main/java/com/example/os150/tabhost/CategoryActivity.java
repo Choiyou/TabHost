@@ -4,7 +4,6 @@ package com.example.os150.tabhost;
 
  */
 import android.app.Activity;
-import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -26,7 +25,8 @@ public class CategoryActivity extends Activity {
         cBtn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ConnectmainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), SecondmainActivity.class);
+                intent.putExtra("key","1");
                 startActivity(intent);
             }
         });
@@ -34,7 +34,8 @@ public class CategoryActivity extends Activity {
         cBtn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ConnectmainActivity.class);
+                Intent intent = new Intent(getApplicationContext(),SecondmainActivity.class);
+                intent.putExtra("key","2");
                 startActivity(intent);
             }
         });
@@ -42,7 +43,8 @@ public class CategoryActivity extends Activity {
         cBtn3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ConnectmainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), SecondmainActivity.class);
+                intent.putExtra("key","3");
                 startActivity(intent);
             }
         });
@@ -50,7 +52,8 @@ public class CategoryActivity extends Activity {
         cBtn4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ConnectmainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), SecondmainActivity.class);
+                intent.putExtra("key","4");
                 startActivity(intent);
             }
         });
@@ -58,7 +61,8 @@ public class CategoryActivity extends Activity {
         cBtn5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ConnectmainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), SecondmainActivity.class);
+                intent.putExtra("key","5");
                 startActivity(intent);
             }
         });
@@ -66,7 +70,8 @@ public class CategoryActivity extends Activity {
         cBtn6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ConnectmainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), SecondmainActivity.class);
+                intent.putExtra("key","6");
                 startActivity(intent);
             }
         });
@@ -74,7 +79,8 @@ public class CategoryActivity extends Activity {
         cBtn7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ConnectmainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), SecondmainActivity.class);
+                intent.putExtra("key","7");
                 startActivity(intent);
             }
         });
@@ -82,15 +88,18 @@ public class CategoryActivity extends Activity {
         cBtn8.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ConnectmainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), SecondmainActivity.class);
+                intent.putExtra("key","8");
                 startActivity(intent);
+
             }
         });
         cBtn9 = (Button)findViewById(R.id.btn9);
         cBtn9.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ConnectmainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), SecondmainActivity.class);
+                intent.putExtra("key","9");
                 startActivity(intent);
             }
         });
@@ -98,7 +107,8 @@ public class CategoryActivity extends Activity {
         cBtn10.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ConnectmainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), SecondmainActivity.class);
+                intent.putExtra("key","10");
                 startActivity(intent);
             }
         });
@@ -106,7 +116,8 @@ public class CategoryActivity extends Activity {
         cBtn11.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ConnectmainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), SecondmainActivity.class);
+                intent.putExtra("key","11");
                 startActivity(intent);
             }
         });
@@ -114,7 +125,8 @@ public class CategoryActivity extends Activity {
         cBtn12.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ConnectmainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), SecondmainActivity.class);
+                intent.putExtra("key","12");
                 startActivity(intent);
             }
         });
@@ -122,7 +134,8 @@ public class CategoryActivity extends Activity {
         cBtn13.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ConnectmainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), SecondmainActivity.class);
+                intent.putExtra("key","13");
                 startActivity(intent);
             }
         });
@@ -130,7 +143,8 @@ public class CategoryActivity extends Activity {
         cBtn14.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ConnectmainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), SecondmainActivity.class);
+                intent.putExtra("key","14");
                 startActivity(intent);
             }
         });
@@ -138,7 +152,8 @@ public class CategoryActivity extends Activity {
         cBtn15.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ConnectmainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), SecondmainActivity.class);
+                intent.putExtra("key","15");
                 startActivity(intent);
             }
         });

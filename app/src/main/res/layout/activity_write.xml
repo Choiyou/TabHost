@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentStart="true"
-                android:gravity="center"
+                android:gravity="top|center"
                 android:text="위치 표시" />
         </RelativeLayout>
 

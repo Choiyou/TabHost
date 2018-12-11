@@ -57,7 +57,7 @@ public class MainActivity extends TabActivity {
         tabHost.addTab(tabSpecMain);
 
 
-        TabHost.TabSpec tabSpecCategory = tabHost.newTabSpec("CATEGORY").setIndicator("카테고리");
+        TabHost.TabSpec tabSpecCategory = tabHost.newTabSpec("CATEGORY").setIndicator("카테\n고리");
 
         Intent intentCategory = new Intent(this, CategoryActivity.class);
 
@@ -75,19 +75,12 @@ public class MainActivity extends TabActivity {
         tabSpecWrite.setContent(intentwrite);
         tabHost.addTab(tabSpecWrite);
 
-        TabHost.TabSpec tabSpecInfo = tabHost.newTabSpec("INFORMATION").setIndicator("개인정보");
+        TabHost.TabSpec tabSpecInfo = tabHost.newTabSpec("INFORMATION").setIndicator("개인\n정보");
         Intent intentMinfo = new Intent(this,MembershipActivity.class);
         tabSpecInfo.setContent(intentMinfo);
         tabHost.addTab(tabSpecInfo);
 
-        for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++) {
 
-            LinearLayout linearLayout = (LinearLayout) tabHost.getTabWidget().getChildAt(i);
-
-            TextView tv = (TextView) linearLayout.getChildAt(1);
-            tv.setTextSize(7);
-
-        }
 
 
 
@@ -110,7 +103,13 @@ public class MainActivity extends TabActivity {
         tabSpecMap.setContent(intentmap);
         tabHost.addTab(tabSpecMap);
 
+        for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++) {
 
+            LinearLayout linearLayout = (LinearLayout) tabHost.getTabWidget().getChildAt(i);
+
+            TextView tv = (TextView) linearLayout.getChildAt(1);
+            tv.setTextSize(13);
+        }
 
 
     }

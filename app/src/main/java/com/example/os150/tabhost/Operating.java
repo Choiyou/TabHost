@@ -3,11 +3,13 @@ package com.example.os150.tabhost;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,25 +20,36 @@ import android.widget.Button;
 import android.widget.Toast;
 
 public class Operating extends Activity{
+    Button ok;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.operating);
+        ok = (Button) findViewById(R.id.Permission);
 
-        Thread th = new Thread(new Runnable() {
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 checkpermission();
             }
+        }, 2000);
+
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkpermission();
+            }
         });
-        th.start();
-
-
     }
+
     private void IntentRun() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        finish();
+        if((ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) &&
+                (ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) &&
+                (ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     //퍼미션 확인용. 카메라, 저장소 읽기, 쓰기.
@@ -46,6 +59,8 @@ public class Operating extends Activity{
             if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)
                     || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION)) {
+                ok.setText("권한 부여를 해주세요");
+                ok.setVisibility(View.VISIBLE);
                 new AlertDialog.Builder(this)
                         .setTitle("알림")
                         .setMessage("권한이 거부되었습니다. 사용을 원하시면 설정에서 권한 승인을 해주세요.")
@@ -67,11 +82,12 @@ public class Operating extends Activity{
                         .create()
                         .show();
             } else {
-                ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                ActivityCompat.requestPermissions(this, new String[] {
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.READ_EXTERNAL_STORAGE,
                         Manifest.permission.CAMERA,
                         Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION}, 1111);
+                        Manifest.permission.ACCESS_COARSE_LOCATION  }, 1111);
             }
         } else {
             IntentRun();

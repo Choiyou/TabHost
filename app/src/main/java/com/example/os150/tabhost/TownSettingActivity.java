@@ -39,8 +39,10 @@ public class TownSettingActivity extends Activity {
             public void onClick(View view) {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-                Intent intent = new Intent(TownSettingActivity.this, CMaps.class);
-                startActivity(intent);
+
+                    Intent intent = new Intent(TownSettingActivity.this, CMaps.class);
+                    startActivity(intent);
+
             }
         });
 

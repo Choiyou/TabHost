@@ -35,43 +35,43 @@ public class LikeMainActivtiy extends AppCompatActivity {
     ArrayList<Integer> mUserItems = new ArrayList<>();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     DatabaseReference mDatabase ;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_likemain);
         getIntent();
         final ArrayList<itemData> oData = new ArrayList<>();
-
         Button selectButton = (Button) findViewById(R.id.selectButton);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
+
         DatabaseReference databaseReference = database.getReference("Market");
         databaseReference.child("디지털,가전").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        oData.clear();                                                  //올릴 데이터 초기화.
+                        for (DataSnapshot fileSnapshot : dataSnapshot.getChildren()) {
+                            //하위키들 value 가져오기
+                            itemData item = new itemData();
+                            String strContents = fileSnapshot.child("contents").getValue(String.class);
+                            String strTitle = fileSnapshot.child("title").getValue(String.class);
+                            String strPrice = fileSnapshot.child("price").getValue(String.class);
+                            item.title = strTitle;
+                            item.price = strPrice;
+                            item.content = strContents;
+                            oData.add(item);
+                        }
+                        m_oListView = (ListView) findViewById(R.id.listview);
+                        ListAdapter oAdapter = new ListAdapter(oData);
+                        m_oListView.setAdapter(oAdapter);
+                        oAdapter.notifyDataSetChanged();        //원본 다시 읽어 재생성.
+                    }
 
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                oData.clear();                                                  //올릴 데이터 초기화.
-                for (DataSnapshot fileSnapshot : dataSnapshot.getChildren()) {
-                    //하위키들 value 가져오기
-                    itemData item = new itemData();
-                    String strContents = fileSnapshot.child("contents").getValue(String.class);
-                    String strTitle = fileSnapshot.child("title").getValue(String.class);
-                    String strPrice = fileSnapshot.child("price").getValue(String.class);
-                    item.title = strTitle;
-                    item.price = strPrice;
-                    item.content = strContents;
-                    oData.add(item);
-                }
-                m_oListView = (ListView) findViewById(R.id.listview);
-                ListAdapter oAdapter = new ListAdapter(oData);
-                m_oListView.setAdapter(oAdapter);
-                oAdapter.notifyDataSetChanged();        //원본 다시 읽어 재생성.
-            }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    }
+                });
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
+
 
         Toast.makeText(getApplicationContext(), "Main", Toast.LENGTH_LONG).show();
     selectButton.setOnClickListener(new View.OnClickListener() {

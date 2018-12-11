@@ -72,7 +72,7 @@ public class MembershipActivity extends Activity{
         btnSignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SigninActivity.class);
+                                Intent intent = new Intent(getApplicationContext(), SigninActivity.class);
                 startActivity(intent);
             }
         });
@@ -86,38 +86,67 @@ public class MembershipActivity extends Activity{
         btnSales.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SaleActivity.class);
-                startActivity(intent);
+                if(user!=null) {
+                    Intent intent = new Intent(getApplicationContext(), SaleActivity.class);
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(MembershipActivity.this,"로그인을 먼저 해주세요",Toast.LENGTH_SHORT).show();
+
+                }
             }
         });
 
         btnPurchase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), PurchaseActivity.class);
-                startActivity(intent);
+
+                if(user!=null) {
+                    Intent intent = new Intent(getApplicationContext(), PurchaseActivity.class);
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(MembershipActivity.this,"로그인을 먼저 해주세요",Toast.LENGTH_SHORT).show();
+                }
             }
         });
         btnLikeProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), LikeMainActivtiy.class);
-                startActivity(intent);
+                if(user!=null) {
+                    Intent intent = new Intent(getApplicationContext(), LikeMainActivtiy.class);
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(MembershipActivity.this,"로그인을 먼저 해주세요",Toast.LENGTH_SHORT).show();
 
+                }
             }
         });
         btnMyPosts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MyPostsActivity.class);
-                startActivity(intent);
+
+                if(user!=null) {
+                    Intent intent = new Intent(getApplicationContext(), MyPostsActivity.class);
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(MembershipActivity.this,"로그인을 먼저 해주세요",Toast.LENGTH_SHORT).show();
+
+                }
             }
         });
         btnTownSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), TownSettingActivity.class);
-                startActivity(intent);
+                if(user!=null) {
+                    Intent intent = new Intent(getApplicationContext(), TownSettingActivity.class);
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(MembershipActivity.this,"로그인을 먼저 해주세요",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

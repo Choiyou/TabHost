@@ -318,6 +318,10 @@ public class WriteActivity extends Activity {
                                     Catedata catedata = new Catedata(Name, Price, Contents, Title,UserEmail,UserName,Lat,Lng);
                                     myContents.child("Market").child("Main").push().setValue(catedata);
                                     myContents.child("Market").child(btnCaSelect.getText().toString()).push().setValue(catedata);
+                                    Intent intent1 = new Intent(getApplicationContext(), MainActivity.class);
+                                    intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent1);
 
                                     /*
                                     final String cu = user.getUid();

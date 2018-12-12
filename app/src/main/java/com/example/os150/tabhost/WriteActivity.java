@@ -213,7 +213,7 @@ public class WriteActivity extends Activity {
                             public void onClick(DialogInterface dialog, int which) {
                                 //사진 찍으셈.
                                 flag = 0;
-                                takePhoto();
+                                //takePhoto();
                             }
                         })
                 .setNeutralButton("앨범 선택",
@@ -222,7 +222,7 @@ public class WriteActivity extends Activity {
                             public void onClick(DialogInterface dialog, int which) {
                                 //앨범 선택.
                                 flag = 1;
-                                selectAlbum();
+                                //selectAlbum();
                             }
                         })
                 .setNegativeButton("취소",
@@ -288,7 +288,6 @@ public class WriteActivity extends Activity {
 
 
 
-    //boolean변수인 priceZero를 설정해줍니다.
     private void Writecheck(String content) {
         AlertDialog.Builder alert_confirm = new AlertDialog.Builder(this);
         alert_confirm.setMessage(content)
@@ -320,7 +319,7 @@ public class WriteActivity extends Activity {
                                     myContents.child("Market").child("Main").push().setValue(catedata);
                                     myContents.child("Market").child(btnCaSelect.getText().toString()).push().setValue(catedata);
 
-
+                                    /*
                                     final String cu = user.getUid();
                                     //1. 사진을 storage에 저장하고 그 url을 알아내야함..
                                     String filename = cu + "_" + System.currentTimeMillis();
@@ -350,7 +349,7 @@ public class WriteActivity extends Activity {
                                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                         }
                                     });
-
+                                    */
 
 
                                 } else {

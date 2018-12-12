@@ -101,9 +101,7 @@ public class MainActivity extends TabActivity {
         }else{
             tabSpecChat.setContent(intentChat);
         }
-//        try{
-//            tabSpecChat.setContent(intentChat);
-//        }catch(InflateException e){}
+
         tabHost.addTab(tabSpecChat);
         // tabHost.setCurrentTab(0);
 

@@ -7,6 +7,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
@@ -19,6 +20,13 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -33,6 +41,54 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        final ArrayList<LatLng> latLngs = new ArrayList<>();
+        final ArrayList<String> titles = new ArrayList<>();
+        final ArrayList<String> prices = new ArrayList<>();
+        FirebaseDatabase database =FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference =database.getReference("Market");
+        databaseReference.child("Main").addValueEventListener(new ValueEventListener() {
+
+            //상품 판매 마커 표시.
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                latLngs.clear();                        //올릴 데이터 초기화.
+                titles.clear();
+                for(DataSnapshot fileSnapshot : dataSnapshot.getChildren()){
+                    //하위키들 value 가져오기
+                    double lat = fileSnapshot.child("lat").getValue(double.class);
+                    double lng = fileSnapshot.child("lng").getValue(double.class);
+                    String title = fileSnapshot.child("title").getValue(String.class);
+                    String price = fileSnapshot.child("price").getValue(String.class);
+                    if (lat == 0 && lng == 0)
+                        continue;
+                    LatLng latlng = new LatLng(lat, lng);
+                    System.out.println("저장되는 위도 경도 값 "+latlng.toString());
+
+                    latLngs.add(latlng);
+                    titles.add(title);
+                    prices.add(price);
+                }
+                MarkerOptions markerOptions = new MarkerOptions();
+                for(int i=0; i<latLngs.size(); i++) {
+                    markerOptions
+                            .position(latLngs.get(i))
+                            .title(titles.get(i))
+                            .snippet(prices.get(i))
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.pin));
+                    System.out.println((i+1)+"번째 위도 경도 타이틀명"+latLngs.get(i).toString()+" / " + titles.get(i));
+                    mMap.addMarker(markerOptions);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
+
+
+
     }
 
     @Override

@@ -8,6 +8,7 @@ package com.example.os150.tabhost;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -23,6 +24,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -35,10 +37,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,9 +55,10 @@ import java.util.Date;
 public class WriteActivity extends Activity {
 
     private final int CategoryResult = 100;
-    private final int CameraResult = 200;
-    private final int AlbumResult = 300;
+    private final int FROM_CAMERA = 200;
+    private final int FROm_ALBUM = 300;
     private final int PermissionResult = 400;
+    private int flag;
     public Uri imgUri, photoURI, albumURI;
     private String mCurrentPhotoPath;
     private static final String[] RequiredPermission = {
@@ -114,10 +122,9 @@ public class WriteActivity extends Activity {
                     }
 
                     Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                    String provider = location.getProvider();
-                    double longitude = location.getLongitude();
-                    double latitude = location.getLatitude();
-                    System.out.println("처음 받은 위도 : " + longitude +" 경도 : " + latitude);
+                    //double longitude = location.getLongitude();
+                    //double latitude = location.getLatitude();
+                    //System.out.println("처음 받은 위도 : " + longitude +" 경도 : " + latitude);
                     lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, gpsLocationListener);
                     lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, gpsLocationListener);
                 } else {
@@ -178,133 +185,22 @@ public class WriteActivity extends Activity {
             if(requestCode == CategoryResult) {
                 btnCaSelect.setText(data.getStringExtra("result"));
                 //System.out.println("받은 데이터 : "+ data.getStringExtra("result"));
-            } else if(requestCode == AlbumResult) {
+            } else if(requestCode == FROm_ALBUM) {
                 if(data.getData() != null) {
                     try {
-                        File albumFile = null;
-                        albumFile = createImageFile();              //생성된 file Uri를 받음.
-                        System.out.println("갤러리 선택시 URI" + albumFile.getAbsolutePath());
                         photoURI = data.getData();
-                        albumURI = Uri.fromFile(albumFile);
-
-                        galleryAddPic();
-                        itemImg1.setImageURI(photoURI);
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), photoURI);
+                        itemImg1.setImageBitmap(bitmap);
+                    } catch(Exception e) {}
                 }
-            } else if(requestCode == CameraResult) {
-                try{
-                    System.out.println("TakePhoto의 imgUri값 : "+imgUri);
-                    Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath);
-                    ExifInterface exif = null;
-                    try{
-                        exif = new ExifInterface(mCurrentPhotoPath);
-                    } catch (IOException e) {}
-
-                    int exifOrientation;
-                    int exifDegree;
-
-                    if(exif != null) {
-                        exifOrientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
-                        exifDegree = exifOrientationToDegrees(exifOrientation);
-                    } else {
-                        exifDegree = 0;
-                    }
-                    galleryAddPic();
-                    itemImg1.setImageBitmap(rotate(bitmap, exifDegree));
-                    //itemImg1.setImageURI(imgUri);
-                } catch (Exception e) {}
-            }
-        }
-    }
-
-    private int exifOrientationToDegrees(int exifOrientation) {
-        if(exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) {
-            return 90;
-        } else if(exifOrientation == ExifInterface.ORIENTATION_ROTATE_180) {
-            return 180;
-        } else if(exifOrientation == ExifInterface.ORIENTATION_ROTATE_270) {
-            return 270;
-        }
-        return 0;
-    }
-
-    private Bitmap rotate(Bitmap bitmap, float degree) {
-        Matrix matrix = new Matrix();
-        matrix.postRotate(degree);
-        return Bitmap.createBitmap(bitmap, 0,0, bitmap.getWidth(),bitmap.getHeight(),matrix, true);
-    }
-
-    //앨범에서 가져오기.
-    private void selectAlbum() {
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");
-        startActivityForResult(intent,AlbumResult);
-    }
-
-    //갤러리에 저장함.
-    public void galleryAddPic()  {
-        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        File f = new File(mCurrentPhotoPath);
-        Uri contentUri = Uri.fromFile(f);
-        mediaScanIntent.setData(contentUri);
-        sendBroadcast(mediaScanIntent);
-        Toast.makeText(this, "사진이 저장되었습니다.", Toast.LENGTH_SHORT).show();
-
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            System.out.println("galleryAddPic에서 읽기 권한이 있습니다!.");
-        }
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            System.out.println("galleryAddPic에서 쓰기 권한이 있습니다!.");
-        }
-
-    }
-
-    //사진을 찍을떄.
-    private void takePhoto() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);    //캡쳐 실행.
-        if(intent.resolveActivity(getPackageManager())!=null) {         //intent를 수신할 앱이 null 즉 없는 경우.
-            File photoFile = null;
-            try{
-                photoFile = createImageFile();
-                //현재 값 새로 만들어진 jpg파일의 URI 잘 적용 됌.
-                System.out.println("takePhoto에서 URI = " + photoFile.getAbsolutePath());
-            } catch (IOException e) {}
-            if(photoFile != null) {
+            } else if(requestCode == FROM_CAMERA) {
                 try {
-                    imgUri = FileProvider.getUriForFile(this, getApplicationContext().getPackageName(), photoFile);
-                } catch(NullPointerException e) {}
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, imgUri);
-                startActivityForResult(intent, CameraResult);           //URI를 획득.intent를 실행.
+                    galleryAddPic();
+                    itemImg1.setImageURI(imgUri);
+                } catch(Exception e) {}
             }
         }
-
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-            //    System.out.println("takephoto에서 카메라 권한이 있습니다!.");
-        }
     }
-
-    //사진 파일 생성. File 반환.        생성에 문제 없음.
-    public File createImageFile() throws IOException {
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "Image_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,      /* prefix */
-                ".jpg",         /* suffix */
-                storageDir          /* directory */
-        );
-        mCurrentPhotoPath = image.getAbsolutePath();
-        System.out.println("createImageFile에서...");
-        System.out.println("mCurrentPhotoPath 경로 : " + mCurrentPhotoPath);
-        System.out.println("File변수 image의   경로 : " + image.getAbsolutePath());
-
-        return image;
-    }
-
-
 
     //이미지 가져오기.====================.====================.====================
     private void makeDialog(){
@@ -316,6 +212,7 @@ public class WriteActivity extends Activity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //사진 찍으셈.
+                                flag = 0;
                                 takePhoto();
                             }
                         })
@@ -324,6 +221,7 @@ public class WriteActivity extends Activity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //앨범 선택.
+                                flag = 1;
                                 selectAlbum();
                             }
                         })
@@ -338,6 +236,57 @@ public class WriteActivity extends Activity {
         AlertDialog alert = alert_confirm.create();
         alert.show();
     }
+
+    public void takePhoto() {
+        String state = Environment.getExternalStorageState();
+        if(Environment.MEDIA_MOUNTED.equals(state)) {
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                File photoFile = null;
+                try {
+                    photoFile = createImageFile();
+                } catch(IOException e) {}
+                if(photoFile != null) {
+                    Uri providerURI = FileProvider.getUriForFile(this, getPackageName(), photoFile);
+                    imgUri = providerURI;
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT,providerURI);
+                    startActivityForResult(intent, FROM_CAMERA);
+                }
+            }
+        }else {
+            System.out.println("저장곤간 접근 불가");
+            return;
+        }
+    }
+
+    public File createImageFile() throws IOException{
+        String imgFileName = System.currentTimeMillis() + ".jpg";
+        File imageFile = null;
+        File storageDir = new File(Environment.getExternalStorageDirectory() + "/Pictures", "ireh");
+        if(!storageDir.exists()) {
+            storageDir.mkdirs();
+        }
+        imageFile = new File(storageDir,imgFileName);
+        mCurrentPhotoPath = imageFile.getAbsolutePath();
+        return imageFile;
+    }
+
+    public void galleryAddPic() {
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        File f = new File(mCurrentPhotoPath);
+        Uri contentUri = Uri.fromFile(f);
+        mediaScanIntent.setData(contentUri);
+        sendBroadcast(mediaScanIntent);
+    }
+
+    public void selectAlbum() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+        intent.setType("image/*");
+        startActivityForResult(intent, FROm_ALBUM);
+    }
+
+
 
     //boolean변수인 priceZero를 설정해줍니다.
     private void Writecheck(String content) {
@@ -355,12 +304,13 @@ public class WriteActivity extends Activity {
                                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                                 DatabaseReference myContents = database.getReference();
+                                FirebaseStorage storage = null;
 
                                 if (user != null) {
-                                    String Title = editTitle.getText().toString();   //글제목
-                                    String Price = editPrice.getText().toString();   //가격
-                                    String Contents = editContents.getText().toString();//글내용
-                                    String Name = btnCaSelect.getText().toString(); //글카테고리
+                                    String Title = editTitle.getText().toString();        //글제목
+                                    String Price = editPrice.getText().toString();        //가격
+                                    String Contents = editContents.getText().toString();  //글내용
+                                    String Name = btnCaSelect.getText().toString();       //글카테고리
                                     String UserEmail = user.getEmail();
                                     String UserName =  user.getDisplayName();
                                     double Lat = lati;
@@ -369,6 +319,40 @@ public class WriteActivity extends Activity {
                                     Catedata catedata = new Catedata(Name, Price, Contents, Title,UserEmail,UserName,Lat,Lng);
                                     myContents.child("Market").child("Main").push().setValue(catedata);
                                     myContents.child("Market").child(btnCaSelect.getText().toString()).push().setValue(catedata);
+
+
+                                    final String cu = user.getUid();
+                                    //1. 사진을 storage에 저장하고 그 url을 알아내야함..
+                                    String filename = cu + "_" + System.currentTimeMillis();
+                                    StorageReference storageRef = storage.getReferenceFromUrl("본인의 Firebase 저장소").child("ImageFile/" + filename);
+                                    UploadTask uploadTask;
+                                    Uri file = null;
+                                    if(flag ==0){
+                                        //사진촬영
+                                        file = Uri.fromFile(new File(mCurrentPhotoPath));
+                                    }else if(flag==1){
+                                        //앨범선택
+                                        file = photoURI;
+                                    }
+                                    uploadTask = storageRef.putFile(file);
+                                    final ProgressDialog progressDialog = new ProgressDialog(WriteActivity.this,R.style.AppTheme);
+                                    progressDialog.setMessage("업로드중...");
+                                    progressDialog.show();
+                                    // Register observers to listen for when the download is done or if it fails
+                                    uploadTask.addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception exception) {
+                                            // Handle unsuccessful uploads
+                                            exception.printStackTrace();
+                                        }
+                                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                        @Override
+                                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                        }
+                                    });
+
+
+
                                 } else {
                                     Toast.makeText(WriteActivity.this, "로그인을 해주세요", Toast.LENGTH_SHORT).show();
                                 }
@@ -406,7 +390,6 @@ public class WriteActivity extends Activity {
         editPrice.setText(null);
         editTitle.setText(null);
         editContents.setText(null);
-        UseMap.setChecked(false);
         NonPass();
     }
 

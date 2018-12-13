@@ -46,7 +46,7 @@ public class ViewActivity extends Activity {
         txtContents.setText(intent.getStringExtra("contents"));
         txtPrice.setText(intent.getStringExtra("price"));
         txtCategory.setText(intent.getStringExtra("category"));
-        txtView.setText(intent.getStringExtra("userEmail"));
+        txtView.setText(intent.getStringExtra("userUid"));
 
         editText1.setFocusable(false);
         editText1.setClickable(false);

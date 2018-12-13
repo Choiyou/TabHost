@@ -66,7 +66,9 @@ public class MyPostsActivity extends Activity {
                     String strUserUid = fileSnapshot.child("userUid").getValue(String.class);
 
 
-                    mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory,strUserUid,strUserName);
+                    mMyAdapter.addItem(R.mipmap.ic_launcher_foreground,strTitle, strPrice, strContents, strCategory, strUserEmail, strUserName);
+
+
                 }
 
 

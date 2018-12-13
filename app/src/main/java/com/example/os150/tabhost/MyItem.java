@@ -9,11 +9,17 @@ public class MyItem {
     private String Category;
     private String UserUid;
     private String UserName;
+    private int Icon;
 
 
 
 
-
+    public int getIcon(){
+        return Icon;
+    }
+    public void setIcon(int Icon){
+        this.Icon=Icon;
+    }
     public String getTitle(){
         return Title;
     }

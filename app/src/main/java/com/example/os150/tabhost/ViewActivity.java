@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class ViewActivity extends Activity {
+    int img;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +40,8 @@ public class ViewActivity extends Activity {
         EditText editText3 =(EditText)findViewById(R.id.e3);
         EditText editText4 =(EditText)findViewById(R.id.e4);
         EditText editText5 =(EditText)findViewById(R.id.e5);
+        img = Integer.parseInt(intent.getStringExtra("img"));
+        imgView.setImageResource(img);
         txtName.setText(intent.getStringExtra("title"));
         txtContents.setText(intent.getStringExtra("contents"));
         txtPrice.setText(intent.getStringExtra("price"));

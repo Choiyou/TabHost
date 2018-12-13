@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../../../os150/Desktop/TabHost/Layout.iml" filepath="$PROJECT_DIR$/../../../os150/Desktop/TabHost/Layout.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/TabHost.iml" filepath="$PROJECT_DIR$/.idea/TabHost.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Project.iml" filepath="$PROJECT_DIR$/Project.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

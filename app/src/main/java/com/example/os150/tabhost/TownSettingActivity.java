@@ -74,8 +74,10 @@ public class TownSettingActivity extends Activity {
                     String strCategory = fileSnapshot.child("category").getValue(String.class);
                     String strUserEmail = fileSnapshot.child("UserEmail").getValue(String.class);
                     String strUserName = fileSnapshot.child("UserName").getValue(String.class);
+                    String strUserUid = fileSnapshot.child("userUid").getValue(String.class);
 
-                    mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory,strUserEmail,strUserName);
+                    mMyAdapter.addItem(R.mipmap.ic_launcher_foreground,strTitle, strPrice, strContents, strCategory, strUserEmail, strUserName);
+
 
                 }
 

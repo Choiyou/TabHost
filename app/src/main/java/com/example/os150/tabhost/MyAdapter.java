@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class MyAdapter extends BaseAdapter {
+    private int img;
     //아이템을 세트로 담기 위한 Array
     private ArrayList<MyItem> mItems = new ArrayList<>();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -55,7 +57,7 @@ public class MyAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.listview_item,parent,false);
         }
         //listview_item에 정의된 위젯에 대한 참조 획득
-       //사진 ImageView imageView = (ImageView)convertView.findViewById(R.id.imageView);
+        ImageView imageView = (ImageView)convertView.findViewById(R.id.imageView);
         final TextView tv_Title =(TextView)convertView.findViewById(R.id.tv_Title);
         final TextView tv_Price =(TextView)convertView.findViewById(R.id.tv_Price);
         final TextView tv_Contents = (TextView)convertView.findViewById(R.id.tv_Contents);
@@ -64,6 +66,7 @@ public class MyAdapter extends BaseAdapter {
         final MyItem myItem = getItem(position);
 
         //각 위젯에 세팅된 아이템을 뿌려준다
+        imageView.setImageResource(myItem.getIcon());
         tv_Title.setText(myItem.getTitle());
         tv_Price.setText(myItem.getPrice());
         tv_Contents.setText(myItem.getContents());
@@ -80,6 +83,7 @@ public class MyAdapter extends BaseAdapter {
                 intent.putExtra("category",myItem.getCategory());
                 intent.putExtra("userUid",myItem.getUserUid());
                 intent.putExtra("userName",myItem.getUserName());
+                intent.putExtra("img",Integer.toString(myItem.getIcon()));
                 context.startActivity(intent);
             }
         });
@@ -155,6 +159,7 @@ public class MyAdapter extends BaseAdapter {
                                 intent.putExtra("category",myItem.getCategory());
                                 intent.putExtra("userUid",myItem.getUserUid());
                                 intent.putExtra("userName",myItem.getUserName());
+                                intent.putExtra("img", Integer.toString(myItem.getIcon()));
                                 context.startActivity(intent);
                                 break;
                         }
@@ -187,9 +192,10 @@ public class MyAdapter extends BaseAdapter {
         });*/
         return convertView;
     }
-    public void addItem(String Title, String Price, String Contents, String Category, String UserUid,String UserName){
+    public void addItem(int img,String Title, String Price, String Contents, String Category, String UserUid,String UserName){
         MyItem mItem = new MyItem();
         //MyItem에 아이템을 setting 한다
+        mItem.setIcon(img);
         mItem.setTitle(Title);
         mItem.setPrice(Price);
         mItem.setContents(Contents);

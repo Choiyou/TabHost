@@ -1,5 +1,6 @@
 package com.example.os150.tabhost.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.app.Fragment;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +24,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.os150.tabhost.Chat.MessageActivity;
 import com.example.os150.tabhost.R;
+import com.example.os150.tabhost.model.ChatModel;
 import com.example.os150.tabhost.model.UserModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -39,9 +42,11 @@ import static com.example.os150.tabhost.R.anim.toleft;
 
 public class PeopleFragment extends Fragment{
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_people,container,false);
         RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.peoplefragment_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(inflater.getContext()));
@@ -90,6 +95,7 @@ public class PeopleFragment extends Fragment{
         }
 
 
+        @SuppressLint("ResourceType")
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
 
@@ -123,11 +129,13 @@ public class PeopleFragment extends Fragment{
         private class CustomViewHolder extends RecyclerView.ViewHolder {
             public ImageView imageView;
             public TextView textView;
+            public TextView textView2;
 
             public CustomViewHolder(View view) {
                 super(view);
                 imageView = view.findViewById(R.id.frienditem_imageview);
                 textView = view.findViewById(R.id.frienditem_textview);
+//                textView2 = view.findViewById(R.id.frienditem_textview2);
             }
         }
     }

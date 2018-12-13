@@ -4,17 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Chat.ChatMain">
+    android:orientation="vertical"
+    tools:context=".Chat.GoChat">
 
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/chatmain_framelayout"
+        android:id="@+id/gochat_framlayout"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true">
 
     </FrameLayout>
-
 
 </RelativeLayout>

@@ -54,6 +54,7 @@ import java.util.Date;
 
 public class WriteActivity extends Activity {
 
+
     private final int CategoryResult = 100;
     private final int FROM_CAMERA = 200;
     private final int FROm_ALBUM = 300;
@@ -310,12 +311,14 @@ public class WriteActivity extends Activity {
                                     String Price = editPrice.getText().toString();        //가격
                                     String Contents = editContents.getText().toString();  //글내용
                                     String Name = btnCaSelect.getText().toString();       //글카테고리
-                                    String UserEmail = user.getEmail();
+                                    String UserUid = user.getUid();
                                     String UserName =  user.getDisplayName();
+
                                     double Lat = lati;
                                     double Lng = longi;
 
-                                    Catedata catedata = new Catedata(Name, Price, Contents, Title,UserEmail,UserName,Lat,Lng);
+
+                                    Catedata catedata = new Catedata(Name, Price, Contents, Title,UserUid,UserName,Lat,Lng);
                                     myContents.child("Market").child("Main").push().setValue(catedata);
                                     myContents.child("Market").child(btnCaSelect.getText().toString()).push().setValue(catedata);
 

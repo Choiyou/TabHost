@@ -63,10 +63,10 @@ public class ConnectmainActivity extends AppCompatActivity {
                     String strTitle = fileSnapshot.child("title").getValue(String.class);
                     String strPrice = fileSnapshot.child("price").getValue(String.class)+"원";
                     String strCategory = fileSnapshot.child("category").getValue(String.class);
-                    String strUserEmail = fileSnapshot.child("userEmail").getValue(String.class);
+                    String strUserUid = fileSnapshot.child("userUid").getValue(String.class);
                     String strUserName = fileSnapshot.child("userName").getValue(String.class);
 
-                    mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory,strUserEmail,strUserName);
+                    mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory,strUserUid,strUserName);
 
                 }
 

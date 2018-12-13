@@ -7,5 +7,6 @@ public class UserModel {
     public String uid;
     public String userName;
     public String profileImageUrl;
+    public String pushToken;
 
 }

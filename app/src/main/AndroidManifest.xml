@@ -2,15 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.os150.tabhost">
 
-    <!--firebase사용 및 위치정보 사용 하기-->
+    <!-- firebase사용 및 위치정보 사용 하기 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <!--아래 3개는 판매글 올릴때 카메라, 갤러리 사진 가져올때 써요.-->
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <!-- 아래 3개는 판매글 올릴때 카메라, 갤러리 사진 가져올때 써요. -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -25,7 +25,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDZStsImGEC7Twaculkcv9-1NnhGwGTTrs" />
 
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".MainActivity" />
         <activity android:name=".SaleActivity" />
         <activity android:name=".PurchaseActivity" />
         <activity android:name=".MyPostsActivity" />
@@ -38,36 +38,44 @@
         <activity android:name=".MapsActivity" />
         <activity android:name=".CategoryselectActivity" />
         <activity android:name=".CategoryActivity" />
-        <activity android:name=".WriteActivity"/>
-        <activity android:name=".MembershipActivity"/>
-        <activity android:name=".LikeMainActivtiy"/>
-        <activity android:name=".ViewActivity"/>
-        <activity android:name=".SecondmainActivity"/>
-        <activity android:name=".CMaps"/>
-
+        <activity android:name=".WriteActivity" />
+        <activity android:name=".MembershipActivity" />
+        <activity android:name=".LikeMainActivtiy" />
+        <activity android:name=".ViewActivity" />
+        <activity android:name=".SecondmainActivity" />
+        <activity android:name=".CMaps" />
         <activity android:name=".Operating">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
-        <activity android:name="com.facebook.FacebookActivity" android:configChanges= "keyboard|keyboardHidden|screenLayout|screenSize|orientation" android:label="@string/app_name" />
-        <activity android:name="com.facebook.CustomTabActivity" android:exported="true">
-            <intent-filter> <action android:name="android.intent.action.VIEW" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name" />
+        <activity
+            android:name="com.facebook.CustomTabActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".ChatMain" />
-        <activity android:name=".Chat.MessageActivity"/>
-        <activity android:name=".ChatFailActivity"></activity>
-
+        <activity android:name=".Chat.ChatMain" />
+        <activity android:name=".Chat.MessageActivity" />
+        <activity android:name=".ChatFailActivity" />
+        <activity android:name=".Chat.GoChat"></activity>
     </application>
-
-
 
 </manifest>

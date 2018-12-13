@@ -13,6 +13,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.os150.tabhost.Chat.GoChat;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class ViewActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,8 +43,19 @@ public class ViewActivity extends Activity {
         btnChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent1 = new Intent(ViewActivity.this,ChatMain.class);
-                startActivity(intent1);
+                Intent intent1 = new Intent(ViewActivity.this,GoChat.class);
+                Intent intent2 = new Intent(ViewActivity.this,ChatFailActivity.class);
+
+                if(FirebaseAuth.getInstance().getCurrentUser()==null){
+                    startActivity(intent2);
+                }else {
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    //현재유저 말고 txtView의 유저 불러오기
+                    String userUid = user.getUid().toString();
+                    intent1.putExtra("destinationUid",userUid);
+                    startActivity(intent1);
+
+                }
             }
         });
 

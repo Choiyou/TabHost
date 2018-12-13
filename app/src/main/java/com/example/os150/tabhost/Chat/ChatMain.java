@@ -1,9 +1,10 @@
-package com.example.os150.tabhost;
+package com.example.os150.tabhost.Chat;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.WindowManager;
 
+import com.example.os150.tabhost.R;
 import com.example.os150.tabhost.fragment.PeopleFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
@@ -22,7 +23,7 @@ public class ChatMain extends AppCompatActivity {
 
         getFragmentManager().beginTransaction().replace(R.id.chatmain_framelayout,new PeopleFragment()).commit();
 
-        passPushTokenToServer();
+//        passPushTokenToServer();
     }
     void passPushTokenToServer(){
 

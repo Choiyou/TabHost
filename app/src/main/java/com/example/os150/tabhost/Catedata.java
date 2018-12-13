@@ -11,7 +11,7 @@ public class Catedata {
     private double Lat;
     private double Lng;
     private String UserName;
-    public Catedata(String Category,String Price,String Contents,String Title,String UserEmail,String UserName, double Lat,double Lng){
+    public Catedata( String Category, String Price, String Contents, String Title, String UserEmail, String UserName, double Lat, double Lng){
         this.Category = Category;
         this.Contents = Contents;
         this.Price = Price;

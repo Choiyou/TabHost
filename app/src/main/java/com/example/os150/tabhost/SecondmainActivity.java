@@ -66,7 +66,9 @@ public class SecondmainActivity extends Activity {
                             String strUserEmail = fileSnapshot.child("userEmail").getValue(String.class);
                             String strUserName = fileSnapshot.child("userName").getValue(String.class);
 
-                            mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory,strUserEmail,strUserName);
+                            String strUserUid = fileSnapshot.child("userUid").getValue(String.class);
+
+                            mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory,strUserUid,strUserName);
                         }
 
 
@@ -101,7 +103,10 @@ public class SecondmainActivity extends Activity {
 
                             String strUserEmail = fileSnapshot.child("userEmail").getValue(String.class);
                             String strUserName = fileSnapshot.child("userName").getValue(String.class);
-                            mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory,strUserEmail,strUserName);
+
+                            String strUserUid = fileSnapshot.child("userUid").getValue(String.class);
+
+                            mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory,strUserUid,strUserName);
                         }
 
 
@@ -137,8 +142,12 @@ public class SecondmainActivity extends Activity {
                             String strUserEmail = fileSnapshot.child("userEmail").getValue(String.class);
                             String strUserName = fileSnapshot.child("userName").getValue(String.class);
 
-                            mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory,strUserEmail,strUserName);
+                            String strUserUid = fileSnapshot.child("userUid").getValue(String.class);
+
+                            mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory,strUserUid,strUserName);
                         }
+
+
 
 
                         mListView.setAdapter(mMyAdapter);
@@ -173,8 +182,11 @@ public class SecondmainActivity extends Activity {
                             String strUserEmail = fileSnapshot.child("userEmail").getValue(String.class);
                             String strUserName = fileSnapshot.child("userName").getValue(String.class);
 
-                            mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory,strUserEmail,strUserName);
+                            String strUserUid = fileSnapshot.child("userUid").getValue(String.class);
+
+                            mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory,strUserUid,strUserName);
                         }
+
 
 
                         mListView.setAdapter(mMyAdapter);
@@ -208,9 +220,11 @@ public class SecondmainActivity extends Activity {
                             String strUserEmail = fileSnapshot.child("userEmail").getValue(String.class);
                             String strUserName = fileSnapshot.child("userName").getValue(String.class);
 
-                            mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory,strUserEmail,strUserName);
+                            String strUserUid = fileSnapshot.child("userUid").getValue(String.class);
 
+                            mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory,strUserUid,strUserName);
                         }
+
 
 
                         mListView.setAdapter(mMyAdapter);
@@ -245,9 +259,11 @@ public class SecondmainActivity extends Activity {
                             String strUserEmail = fileSnapshot.child("userEmail").getValue(String.class);
                             String strUserName = fileSnapshot.child("userName").getValue(String.class);
 
-                            mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory,strUserEmail,strUserName);
+                            String strUserUid = fileSnapshot.child("userUid").getValue(String.class);
 
+                            mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory,strUserUid,strUserName);
                         }
+
 
 
                         mListView.setAdapter(mMyAdapter);
@@ -282,8 +298,11 @@ public class SecondmainActivity extends Activity {
                             String strUserEmail = fileSnapshot.child("userEmail").getValue(String.class);
                             String strUserName = fileSnapshot.child("userName").getValue(String.class);
 
-                            mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory,strUserEmail,strUserName);
+                            String strUserUid = fileSnapshot.child("userUid").getValue(String.class);
+
+                            mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory,strUserUid,strUserName);
                         }
+
 
 
                         mListView.setAdapter(mMyAdapter);
@@ -318,9 +337,11 @@ public class SecondmainActivity extends Activity {
                             String strUserEmail = fileSnapshot.child("userEmail").getValue(String.class);
                             String strUserName = fileSnapshot.child("userName").getValue(String.class);
 
-                            mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory,strUserEmail,strUserName);
+                            String strUserUid = fileSnapshot.child("userUid").getValue(String.class);
 
+                            mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory,strUserUid,strUserName);
                         }
+
 
 
                         mListView.setAdapter(mMyAdapter);
@@ -355,9 +376,11 @@ public class SecondmainActivity extends Activity {
                             String strUserEmail = fileSnapshot.child("userEmail").getValue(String.class);
                             String strUserName = fileSnapshot.child("userName").getValue(String.class);
 
-                            mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory,strUserEmail,strUserName);
+                            String strUserUid = fileSnapshot.child("userUid").getValue(String.class);
 
+                            mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory,strUserUid,strUserName);
                         }
+
 
 
                         mListView.setAdapter(mMyAdapter);
@@ -392,9 +415,11 @@ public class SecondmainActivity extends Activity {
                             String strUserEmail = fileSnapshot.child("userEmail").getValue(String.class);
                             String strUserName = fileSnapshot.child("userName").getValue(String.class);
 
-                            mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory,strUserEmail,strUserName);
+                            String strUserUid = fileSnapshot.child("userUid").getValue(String.class);
 
+                            mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory,strUserUid,strUserName);
                         }
+
 
 
                         mListView.setAdapter(mMyAdapter);
@@ -428,9 +453,12 @@ public class SecondmainActivity extends Activity {
 
                             String strUserEmail = fileSnapshot.child("userEmail").getValue(String.class);
                             String strUserName = fileSnapshot.child("userName").getValue(String.class);
-                            mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory,strUserEmail,strUserName);
 
+                            String strUserUid = fileSnapshot.child("userUid").getValue(String.class);
+
+                            mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory,strUserUid,strUserName);
                         }
+
 
 
                         mListView.setAdapter(mMyAdapter);
@@ -465,8 +493,12 @@ public class SecondmainActivity extends Activity {
                             String strUserEmail = fileSnapshot.child("userEmail").getValue(String.class);
                             String strUserName = fileSnapshot.child("userName").getValue(String.class);
 
-                            mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory,strUserEmail,strUserName);
+                            String strUserUid = fileSnapshot.child("userUid").getValue(String.class);
+
+                            mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory,strUserUid,strUserName);
                         }
+
+
 
 
                         mListView.setAdapter(mMyAdapter);
@@ -500,9 +532,11 @@ public class SecondmainActivity extends Activity {
 
                             String strUserEmail = fileSnapshot.child("userEmail").getValue(String.class);
                             String strUserName = fileSnapshot.child("userName").getValue(String.class);
-                            mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory,strUserEmail,strUserName);
+                            String strUserUid = fileSnapshot.child("userUid").getValue(String.class);
 
+                            mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory,strUserUid,strUserName);
                         }
+
 
 
                         mListView.setAdapter(mMyAdapter);
@@ -537,9 +571,11 @@ public class SecondmainActivity extends Activity {
                             String strUserEmail = fileSnapshot.child("userEmail").getValue(String.class);
                             String strUserName = fileSnapshot.child("userName").getValue(String.class);
 
-                            mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory,strUserEmail,strUserName);
+                            String strUserUid = fileSnapshot.child("userUid").getValue(String.class);
 
+                            mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory,strUserUid,strUserName);
                         }
+
 
 
                         mListView.setAdapter(mMyAdapter);
@@ -573,8 +609,11 @@ public class SecondmainActivity extends Activity {
                             String strUserEmail = fileSnapshot.child("userEmail").getValue(String.class);
                             String strUserName = fileSnapshot.child("userName").getValue(String.class);
 
-                            mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory,strUserEmail,strUserName);
+                            String strUserUid = fileSnapshot.child("userUid").getValue(String.class);
+
+                            mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory,strUserUid,strUserName);
                         }
+
 
 
                         mListView.setAdapter(mMyAdapter);

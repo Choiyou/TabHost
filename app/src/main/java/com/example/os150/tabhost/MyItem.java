@@ -2,12 +2,15 @@ package com.example.os150.tabhost;
 
 public class MyItem {
 
+    private String PostUid;
     private String Title;
     private String Price;
     private String Contents;
     private String Category;
-    private String UserEmail;
+    private String UserUid;
     private String UserName;
+
+
     public String getTitle(){
         return Title;
     }
@@ -34,11 +37,11 @@ public class MyItem {
     public void setCategory(String Category){
         this.Category = Category;
     }
-    public String getUserEmail(){
-        return  UserEmail;
+    public String getUserUid(){
+        return  UserUid;
     }
-    public void setUserEmail(String UserEmail){
-        this.UserEmail = UserEmail;
+    public void setUserUid(String UserUid){
+        this.UserUid = UserUid;
     }
     public String getUserName(){
         return UserName;

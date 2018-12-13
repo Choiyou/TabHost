@@ -30,6 +30,7 @@ public class MyAdapter extends BaseAdapter {
     private ArrayList<MyItem> mItems = new ArrayList<>();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     DatabaseReference mDatabase;
+
     @Override
     public int getCount() {
         return mItems.size();
@@ -108,13 +109,15 @@ public class MyAdapter extends BaseAdapter {
                                     mItems.remove(position);
 
 
-                                    mDatabase = FirebaseDatabase.getInstance().getReference("Market").child("Main");
 
-                                    mDatabase.orderByChild("contents").equalTo(myItem.getContents()).addValueEventListener(new ValueEventListener() {
+                                    mDatabase = FirebaseDatabase.getInstance().getReference("Market");
+
+                                    mDatabase.child("Main").addValueEventListener(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                            mDatabase.getRef().removeValue();
+                                            String fkey = dataSnapshot.getKey();
+                                       mDatabase.child("Main").child(fkey).orderByChild("contents").equalTo( mItems.get(position).getContents()).getRef().removeValue();
                                             Toast.makeText(getApplicationContext(), "삭제", Toast.LENGTH_SHORT).show();
                                         }
 
@@ -137,11 +140,7 @@ public class MyAdapter extends BaseAdapter {
                                 mItems.remove(which);
                                 notifyDataSetInvalidated();
 
-
-
                                 Toast.makeText(getApplicationContext(), "판매글", Toast.LENGTH_SHORT).show();
-
-
                                 break;
 
 
@@ -150,7 +149,6 @@ public class MyAdapter extends BaseAdapter {
                                 mItems.remove(which);
                                 notifyDataSetInvalidated();
                                 Intent intent =new Intent(getApplicationContext(),ViewActivity.class);
-
                                 intent.putExtra("title",myItem.getTitle());
                                 intent.putExtra("contents",myItem.getContents());
                                 intent.putExtra("price",myItem.getPrice());

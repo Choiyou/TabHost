@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +42,15 @@ public class MembershipActivity extends Activity{
         Button btnTownSetting = (Button) findViewById(R.id.btntownSetting);
         Button btnSignin = (Button) findViewById(R.id.Signin);
         Button btnLogin = (Button) findViewById(R.id.login);
+        EditText editText1 = (EditText)findViewById(R.id.ed1);
+        EditText editText2 = (EditText)findViewById(R.id.ed2);
+        EditText editText3 = (EditText)findViewById(R.id.ed3);
+        editText1.setFocusable(false);
+        editText1.setClickable(false);
+        editText2.setFocusable(false);
+        editText2.setClickable(false);
+        editText3.setFocusable(false);
+        editText3.setClickable(false);
 
         if(user!=null) {
 

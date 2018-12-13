@@ -67,6 +67,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
+                android:id="@+id/ed1"
                 />
             <Button
                 android:background="@android:color/transparent"
@@ -81,6 +82,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
+                android:id="@+id/ed2"
                 android:color="@color/colorPrimary"
                 />
             <Button
@@ -96,6 +98,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
+                android:id="@+id/ed3"
                 />
 
             <Button

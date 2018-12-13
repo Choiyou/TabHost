@@ -121,15 +121,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     markerindex += markerid.charAt(i);
             }
             Intent intent =new Intent(getApplicationContext(),ViewActivity.class);
-
-            intent.putExtra("title",titles.get(Integer.parseInt(markerindex)-1));
-            intent.putExtra("contents",contents.get(Integer.parseInt(markerindex)-1));
-            intent.putExtra("price",prices.get(Integer.parseInt(markerindex)-1));
-            intent.putExtra("category",categorys.get(Integer.parseInt(markerindex)-1));
-            intent.putExtra("userName",userNames.get(Integer.parseInt(markerindex)-1));
-            intent.putExtra("userEmail",emails.get(Integer.parseInt(markerindex)-1));
-            startActivity(intent);
-
+            if(Integer.parseInt(markerindex) != 0) {
+                intent.putExtra("title", titles.get(Integer.parseInt(markerindex) - 1));
+                intent.putExtra("contents", contents.get(Integer.parseInt(markerindex) - 1));
+                intent.putExtra("price", prices.get(Integer.parseInt(markerindex) - 1));
+                intent.putExtra("category", categorys.get(Integer.parseInt(markerindex) - 1));
+                intent.putExtra("userName", userNames.get(Integer.parseInt(markerindex) - 1));
+                intent.putExtra("userEmail", emails.get(Integer.parseInt(markerindex) - 1));
+                startActivity(intent);
+            }
             System.out.println("누른 아이디 : " + markerindex);
 
             return false;

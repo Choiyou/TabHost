@@ -19,9 +19,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 public class ConnectmainActivity extends AppCompatActivity {
     private ListView mListView;
     static boolean calledAlready = false;
+
 
 
     @Override
@@ -39,12 +43,13 @@ public class ConnectmainActivity extends AppCompatActivity {
         mListView = (ListView)findViewById(R.id.listView);
         //아이템추가 및 어댑터 등록
         dataSetting();
+
     }
     private void dataSetting() {
 
         final MyAdapter mMyAdapter = new MyAdapter();
 
-        //final ArrayList<MyItem> oData = new ArrayList<>();
+
 
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -54,26 +59,29 @@ public class ConnectmainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 //올릴 데이터 초기화.
-               // oData.clear();
 
-                for (DataSnapshot fileSnapshot : dataSnapshot.getChildren()) {
-                    //하위키들 value 가져오기
 
-                    String strContents = fileSnapshot.child("contents").getValue(String.class);
-                    String strTitle = fileSnapshot.child("title").getValue(String.class);
-                    String strPrice = fileSnapshot.child("price").getValue(String.class)+"원";
-                    String strCategory = fileSnapshot.child("category").getValue(String.class);
-                    String strUserUid = fileSnapshot.child("userUid").getValue(String.class);
-                    String strUserName = fileSnapshot.child("userName").getValue(String.class);
 
-                    mMyAdapter.addItem(strTitle, strPrice, strContents,strCategory,strUserUid,strUserName);
+                    for (DataSnapshot fileSnapshot : dataSnapshot.getChildren()) {
+                        //하위키들 value 가져오기
 
-                }
+                        String strContents = fileSnapshot.child("contents").getValue(String.class);
+                        String strTitle = fileSnapshot.child("title").getValue(String.class);
+                        String strPrice = fileSnapshot.child("price").getValue(String.class) + "원";
+                        String strCategory = fileSnapshot.child("category").getValue(String.class);
+                        String strUserEmail = fileSnapshot.child("userEmail").getValue(String.class);
+                        String strUserName = fileSnapshot.child("userName").getValue(String.class);
+
+                        mMyAdapter.addItem(strTitle, strPrice, strContents, strCategory, strUserEmail, strUserName);
+
+                    }
+
 
 
                 mListView.setAdapter(mMyAdapter);
-
                 mMyAdapter.notifyDataSetChanged();
+
+
 
             }
 
@@ -85,6 +93,8 @@ public class ConnectmainActivity extends AppCompatActivity {
         });
 
 
+
     }
+
 }
 

@@ -223,6 +223,7 @@ public class WriteActivity extends Activity {
                             public void onClick(DialogInterface dialog, int which) {
                                 //앨범 선택.
                                 flag = 1;
+                               // selectAlbum();
                                 //selectAlbum();
                             }
                         })
@@ -289,6 +290,7 @@ public class WriteActivity extends Activity {
 
 
 
+    //boolean변수인 priceZero를 설정해줍니다.
     private void Writecheck(String content) {
         AlertDialog.Builder alert_confirm = new AlertDialog.Builder(this);
         alert_confirm.setMessage(content)
@@ -321,6 +323,10 @@ public class WriteActivity extends Activity {
                                     Catedata catedata = new Catedata(Name, Price, Contents, Title,UserUid,UserName,Lat,Lng);
                                     myContents.child("Market").child("Main").push().setValue(catedata);
                                     myContents.child("Market").child(btnCaSelect.getText().toString()).push().setValue(catedata);
+                                    Intent intent1 = new Intent(getApplicationContext(), MainActivity.class);
+                                    intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent1);
 
                                     /*
                                     final String cu = user.getUid();

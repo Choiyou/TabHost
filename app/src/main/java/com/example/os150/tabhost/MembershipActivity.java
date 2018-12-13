@@ -36,7 +36,6 @@ public class MembershipActivity extends Activity{
         setContentView(R.layout.activity_membershipinfo);
         final TextView txtLoginInfo = (TextView) findViewById(R.id.loginInfo);
         Button btnSales = (Button) findViewById(R.id.btnSales);
-        Button btnPurchase = (Button) findViewById(R.id.btnPurchase);
         Button btnLikeProduct = (Button) findViewById(R.id.btnlikeProduct);
         Button btnMyPosts = (Button) findViewById(R.id.btnMyPosts);
         Button btnTownSetting = (Button) findViewById(R.id.btntownSetting);
@@ -45,7 +44,7 @@ public class MembershipActivity extends Activity{
 
         if(user!=null) {
 
-                txtLoginInfo.setText("회원 : "+user.getDisplayName());
+            txtLoginInfo.setText("회원 : "+user.getDisplayName());
 
         }
         else{
@@ -72,7 +71,7 @@ public class MembershipActivity extends Activity{
         btnSignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                                Intent intent = new Intent(getApplicationContext(), SigninActivity.class);
+                Intent intent = new Intent(getApplicationContext(), SigninActivity.class);
                 startActivity(intent);
             }
         });
@@ -97,19 +96,6 @@ public class MembershipActivity extends Activity{
             }
         });
 
-        btnPurchase.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if(user!=null) {
-                    Intent intent = new Intent(getApplicationContext(), PurchaseActivity.class);
-                    startActivity(intent);
-                }
-                else{
-                    Toast.makeText(MembershipActivity.this,"로그인을 먼저 해주세요",Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
         btnLikeProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

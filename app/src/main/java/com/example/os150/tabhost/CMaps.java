@@ -99,6 +99,8 @@ public class CMaps extends FragmentActivity implements OnMapReadyCallback {
     @Override
     public void onMapReady(final GoogleMap googleMap) {
         gMap = googleMap;
+        CameraUpdate cameraUpdate =  CameraUpdateFactory.newLatLngZoom(new LatLng(36,127), 15);
+        gMap.moveCamera(cameraUpdate);
         geocoder = new Geocoder(this);
 
         gMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
@@ -112,8 +114,6 @@ public class CMaps extends FragmentActivity implements OnMapReadyCallback {
                 mOption.snippet(latitude.toString()+","+longitude.toString());
                 mOption.position(new LatLng(latitude,longitude));
                 googleMap.addMarker(mOption);
-
-
             }
         });
         searchbutton.setOnClickListener(new Button.OnClickListener(){
@@ -152,7 +152,6 @@ public class CMaps extends FragmentActivity implements OnMapReadyCallback {
                         mOptions.snippet(address);
                         mOptions.position(latLng);
                         gMap.addMarker(mOptions);
-
                         gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
 
 
@@ -178,7 +177,6 @@ public class CMaps extends FragmentActivity implements OnMapReadyCallback {
         gMap.moveCamera(CameraUpdateFactory.newLatLng(setting));
         lanText.setText("위도 : "+37);
         lonText.setText("경도 : "+127);
-
 
 
     }

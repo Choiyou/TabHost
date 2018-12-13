@@ -166,7 +166,7 @@ public class WriteActivity extends Activity {
                 } else if (btnCaSelect.getText().toString().equals("카테고리 선택>")) {
                     Toast.makeText(WriteActivity.this, "카테고리를 선택해주세요.", Toast.LENGTH_SHORT).show();
                 } else if (price == 0) {
-                    editPrice.setText(0);
+                    editPrice.setText("0");
                     Writecheck("금액을 0원으로 설정하시겠습니까?");
                 } else if (price != 0) {
                     Writecheck("글을 올리시겠습니까?");
@@ -408,7 +408,7 @@ public class WriteActivity extends Activity {
             double latitude = location.getLatitude();   //위도
             longi = longitude;
             lati = latitude;
-            System.out.println("경도 : " + longitude + "위도 : " + latitude);
+            //System.out.println("경도 : " + longitude + "위도 : " + latitude);
         }
         public void onStatusChanged(String provider, int status, Bundle extras) { }
         public void onProviderEnabled(String provider) { }

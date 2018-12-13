@@ -213,7 +213,7 @@ public class WriteActivity extends Activity {
                             public void onClick(DialogInterface dialog, int which) {
                                 //사진 찍으셈.
                                 flag = 0;
-                                takePhoto();
+                                //takePhoto();
                             }
                         })
                 .setNeutralButton("앨범 선택",
@@ -222,7 +222,7 @@ public class WriteActivity extends Activity {
                             public void onClick(DialogInterface dialog, int which) {
                                 //앨범 선택.
                                 flag = 1;
-                                selectAlbum();
+                               // selectAlbum();
                             }
                         })
                 .setNegativeButton("취소",

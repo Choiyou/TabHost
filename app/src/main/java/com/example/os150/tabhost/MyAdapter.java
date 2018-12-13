@@ -1,13 +1,25 @@
 package com.example.os150.tabhost;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -16,7 +28,8 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 public class MyAdapter extends BaseAdapter {
     //아이템을 세트로 담기 위한 Array
     private ArrayList<MyItem> mItems = new ArrayList<>();
-
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    DatabaseReference mDatabase;
     @Override
     public int getCount() {
         return mItems.size();
@@ -33,7 +46,7 @@ public class MyAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         final Context context = parent.getContext();
         //listview_item layout을 inflate하여 convertView 참조 획득
         if(convertView == null){
@@ -70,7 +83,97 @@ public class MyAdapter extends BaseAdapter {
             }
         });
 
+        tv_item.setOnLongClickListener(new View.OnLongClickListener() {
 
+
+            @Override
+            public boolean onLongClick(View view) {
+                CharSequence info[] = new CharSequence[] {"삭제", "판매글","관심상품 등록" };
+
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("게시글 관리");
+                builder.setItems(info, new DialogInterface.OnClickListener() {
+
+                    @Override
+
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        switch(which)
+
+                        {
+                            case 0:
+                                if(user!=null) {
+
+                                    mItems.remove(position);
+
+
+                                    mDatabase = FirebaseDatabase.getInstance().getReference("Market").child("Main");
+
+                                    mDatabase.orderByChild("contents").equalTo(myItem.getContents()).addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                            mDatabase.getRef().removeValue();
+                                            Toast.makeText(getApplicationContext(), "삭제", Toast.LENGTH_SHORT).show();
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
+                                    notifyDataSetInvalidated();
+
+                                }
+                                else{
+                                    Toast.makeText(getApplicationContext(), "권한이 없습니다.", Toast.LENGTH_SHORT).show();
+
+                                }
+                                break;
+
+                            case 1:
+
+                                mItems.remove(which);
+                                notifyDataSetInvalidated();
+
+
+
+                                Toast.makeText(getApplicationContext(), "판매글", Toast.LENGTH_SHORT).show();
+
+
+                                break;
+
+
+                            case 2:
+
+                                mItems.remove(which);
+                                notifyDataSetInvalidated();
+                                Intent intent =new Intent(getApplicationContext(),ViewActivity.class);
+
+                                intent.putExtra("title",myItem.getTitle());
+                                intent.putExtra("contents",myItem.getContents());
+                                intent.putExtra("price",myItem.getPrice());
+                                intent.putExtra("category",myItem.getCategory());
+                                intent.putExtra("userEmail",myItem.getUserEmail());
+                                intent.putExtra("userName",myItem.getUserName());
+                                context.startActivity(intent);
+                                break;
+                        }
+
+                        dialog.dismiss();
+
+                    }
+
+                });
+
+                builder.show();
+
+
+
+                return true;
+            }
+        });
         /*tv_Contents.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

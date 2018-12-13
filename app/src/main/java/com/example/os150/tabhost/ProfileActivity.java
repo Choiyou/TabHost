@@ -131,9 +131,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View view) {
         if (view == Using) {
             try {
-                if(user.getDisplayName()==null){
-                    Toast.makeText(this, " 사용자 이름을 작성해주세요.", Toast.LENGTH_SHORT).show();
-
+                if (Username.getText().toString().length()==0) {
+                    Toast.makeText(getApplicationContext(), "이름을 확인해 주세요.", Toast.LENGTH_SHORT).show();
                 }
                 else if ( user.getPhotoUrl().toString() == null) {
                     Toast.makeText(this, "프로필을 선택해주세요.", Toast.LENGTH_SHORT).show();
@@ -157,9 +156,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         if (view == buttonLogout) {
 
             try {
-                if(user.getDisplayName()==null){
-                    Toast.makeText(this, " 사용자 이름을 작성해주세요.", Toast.LENGTH_SHORT).show();
-
+                if (Username.getText().toString().length()==0) {
+                    Toast.makeText(getApplicationContext(), "이름을 확인해 주세요.", Toast.LENGTH_SHORT).show();
                 }
                 else if ( user.getPhotoUrl().toString() == null) {
                     Toast.makeText(this, "프로필을 선택해주세요.", Toast.LENGTH_SHORT).show();
@@ -181,9 +179,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
         if (view == ChangePassword) {
             try {
-                if(user.getDisplayName()==null){
-                    Toast.makeText(this, " 사용자 이름을 작성해주세요.", Toast.LENGTH_SHORT).show();
-
+                if (Username.getText().toString().length()==0) {
+                    Toast.makeText(getApplicationContext(), "이름을 확인해 주세요.", Toast.LENGTH_SHORT).show();
                 }
                 else if ( user.getPhotoUrl().toString() == null) {
                     Toast.makeText(this, "프로필을 선택해주세요.", Toast.LENGTH_SHORT).show();
@@ -225,9 +222,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         //회원탈퇴를 클릭하면 회원정보를 삭제한다.
         if (view == userDelete) {
             try {
-                if(user.getDisplayName()==null){
-                    Toast.makeText(this, " 사용자 이름을 작성해주세요.", Toast.LENGTH_SHORT).show();
-
+                if (Username.getText().toString().length()==0) {
+                    Toast.makeText(getApplicationContext(), "이름을 확인해 주세요.", Toast.LENGTH_SHORT).show();
                 }
                 else if ( user.getPhotoUrl().toString() == null) {
                     Toast.makeText(this, "프로필을 선택해주세요.", Toast.LENGTH_SHORT).show();
@@ -283,16 +279,16 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             user.updateProfile(profileUpdate).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
-                    if (user.getDisplayName()==null) {
+                    if (Username.getText().toString().length()==0) {
                         Toast.makeText(getApplicationContext(), "이름을 확인해 주세요.", Toast.LENGTH_SHORT).show();
-                    }
-                    if (task.isSuccessful()) {
-                        Toast.makeText(getApplicationContext(), "이름이 변경되었습니다.", Toast.LENGTH_SHORT).show();
-                        Log.d(TAG, "name update success");
-                        textViewUserEmail.setText("반갑습니다.\n" + user.getDisplayName() + "  님");
+                    }else {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(getApplicationContext(), "이름이 변경되었습니다.", Toast.LENGTH_SHORT).show();
+                            Log.d(TAG, "name update success");
+                            textViewUserEmail.setText("반갑습니다.\n" + user.getDisplayName() + "  님");
 
+                        }
                     }
-
 
 
                 }
@@ -301,6 +297,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         }
     }
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+    }
+
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode,resultCode,data);

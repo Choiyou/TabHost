@@ -22,6 +22,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:srcCompat="@tools:sample/avatars" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:id="@+id/e1"
+                />
 
             <TextView
                 android:id="@+id/textView3"
@@ -30,13 +35,23 @@
                 android:text="회원정보"
                 android:layout_weight="1"/>
 
+            <EditText
+                android:id="@+id/e2"
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
+
             <TextView
                 android:id="@+id/viewName"
                 android:layout_width="match_parent"
-                android:layout_height="47dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="TextView"
-                android:textStyle="bold"
-                android:layout_weight="1"/>
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/e3"
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
 
             <TextView
                 android:id="@+id/viewCategory"
@@ -45,12 +60,22 @@
                 android:layout_weight="1"
                 android:text="TextView" />
 
+            <EditText
+                android:id="@+id/e4"
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
+
             <TextView
                 android:id="@+id/viewContents"
                 android:layout_width="match_parent"
-                android:layout_height="199dp"
+                android:layout_height="130dp"
                 android:layout_weight="1"
                 android:text="TextView" />
+
+            <EditText
+                android:id="@+id/e5"
+                android:layout_width="match_parent"
+                android:layout_height="25dp" />
         </LinearLayout>
     </ScrollView>
 

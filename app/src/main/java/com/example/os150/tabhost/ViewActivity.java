@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,12 +29,27 @@ public class ViewActivity extends Activity {
         TextView txtContents = (TextView)findViewById(R.id.viewContents);
         TextView txtPrice = (TextView)findViewById(R.id.viewPay);
         Button btnChat = (Button)findViewById(R.id.chatbtn);
-
+        EditText editText1 =(EditText)findViewById(R.id.e1);
+        EditText editText2 =(EditText)findViewById(R.id.e2);
+        EditText editText3 =(EditText)findViewById(R.id.e3);
+        EditText editText4 =(EditText)findViewById(R.id.e4);
+        EditText editText5 =(EditText)findViewById(R.id.e5);
         txtName.setText(intent.getStringExtra("title"));
         txtContents.setText(intent.getStringExtra("contents"));
         txtPrice.setText(intent.getStringExtra("price"));
         txtCategory.setText(intent.getStringExtra("category"));
         txtView.setText(intent.getStringExtra("userEmail"));
+
+        editText1.setFocusable(false);
+        editText1.setClickable(false);
+        editText2.setFocusable(false);
+        editText2.setClickable(false);
+        editText3.setFocusable(false);
+        editText3.setClickable(false);
+        editText4.setFocusable(false);
+        editText4.setClickable(false);
+        editText5.setFocusable(false);
+        editText5.setClickable(false);
 
         btnChat.setOnClickListener(new View.OnClickListener() {
             @Override

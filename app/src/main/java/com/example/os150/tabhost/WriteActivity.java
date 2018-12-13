@@ -223,6 +223,7 @@ public class WriteActivity extends Activity {
                                 //앨범 선택.
                                 flag = 1;
                                // selectAlbum();
+                                //selectAlbum();
                             }
                         })
                 .setNegativeButton("취소",
@@ -319,8 +320,12 @@ public class WriteActivity extends Activity {
                                     Catedata catedata = new Catedata(Name, Price, Contents, Title,UserEmail,UserName,Lat,Lng);
                                     myContents.child("Market").child("Main").push().setValue(catedata);
                                     myContents.child("Market").child(btnCaSelect.getText().toString()).push().setValue(catedata);
+                                    Intent intent1 = new Intent(getApplicationContext(), MainActivity.class);
+                                    intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent1);
 
-
+                                    /*
                                     final String cu = user.getUid();
                                     //1. 사진을 storage에 저장하고 그 url을 알아내야함..
                                     String filename = cu + "_" + System.currentTimeMillis();
@@ -350,7 +355,7 @@ public class WriteActivity extends Activity {
                                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                         }
                                     });
-
+                                    */
 
 
                                 } else {

@@ -20,7 +20,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_weight="5"
-        android:background="#3333AA"
+        android:background="#3333FF"
         app:lottie_autoPlay="true"
         app:lottie_fileName="operating.json"
         app:lottie_loop="true" />
@@ -32,7 +32,8 @@
         android:layout_weight="1" />
 
     <Button
-        android:background="#111199"
+        android:background="#3333FF"
+        android:textColor="#FFFFFF"
         android:id="@+id/Permission"
         android:layout_width="match_parent"
         android:layout_height="0dp"

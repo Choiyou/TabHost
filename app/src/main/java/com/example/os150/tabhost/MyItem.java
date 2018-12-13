@@ -8,6 +8,9 @@ public class MyItem {
     private String Category;
     private String UserEmail;
     private String UserName;
+
+
+
     public String getTitle(){
         return Title;
     }
